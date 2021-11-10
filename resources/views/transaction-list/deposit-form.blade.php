@@ -48,7 +48,7 @@
                              </div>
                 
 
-                {{--                 PAYSTACK--}}
+                {{-- PAYSTACK--}}
                                 <form method="POST" onsubmit="paystackFunction()" action="{{ route('pay') }}" id="paymentForm" accept-charset="UTF-8" class="form-horizontal" role="form">
                                     <div class="row" style="margin-bottom:0px;">
                                         <div class="col-md-12 col-md-offset-2">
