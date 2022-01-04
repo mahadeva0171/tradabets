@@ -2,6 +2,7 @@
 
 use App\Balance;
 use App\KycDocument;
+use App\UserBankDetails;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,22 @@ Route::get('/', function () {
         if($user->role!='admin'){
         $balance= Balance::where('user_id',$user->id)->first()->balance;
         $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
+        $bank_account=userBankDetails::where([['user_id',$user->id],['Active_status','Active']])->get()->all();
+    
+        if($bank_account!=null)
+        {
+            session([
+                'account_status' => 1
+            ]);
+        }
+        else
+        {
+            session([
+                'account_status' => 0
+            ]); 
+            
+        }
+
         if($kyc_update!=null)
         {
             session([
@@ -93,6 +110,8 @@ Route::get('login',function(){
 Route::post('login', 'Auth\LoginController@login');
 Route::get('login/userVerify','Auth\LoginController@userVerify');
 Route::get('/emailCheck/{postdata}', 'Auth\RegisterController@emailCheck');
+Route::get('/phoneCheck/{postdata}', 'Auth\RegisterController@phoneCheck');
+
 // password reset
 Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::get('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
@@ -139,6 +158,9 @@ Route::middleware($middleware)->get('/balance-view', 'TransactionController@admi
 Route::middleware($middleware)->get('/withdraw-requests', 'TransactionController@withdrawRequestLists');
 Route::middleware($middleware)->get('/withdraw-request/view/{withdraw}', 'TransactionController@withdrawRequestListsView');
 Route::middleware($middleware)->get('/withdraw-request/update/{withdraw}', 'TransactionController@withdrawRequestListsUpdate');
+Route::middleware($middleware)->get('/withdraw-request-individual/update/{id}', 'TransactionController@withdrawRequestIndividualUpdate');
+Route::middleware($middleware)->get('/withdraw-request-individual-reject/update/{id}', 'TransactionController@withdrawRequestIndividualRejectUpdate');
+
     // user profile
 Route::middleware($middleware)->get('users/profile/{user}', 'UserProfileController@show');
 Route::middleware($middleware)->get('users/profile/{user}/edit', 'UserProfileController@edit');
@@ -153,17 +175,34 @@ Route::middleware($middleware)->get('/kyc-list', 'KycController@docList');
 Route::middleware($middleware)->get('/kyc-list/view/{document}', 'KycController@viewDoc');
 Route::middleware($middleware)->post('/kyc-list/update/{document}', 'KycController@update');
 Route::middleware($middleware)->get('/document-show/{id}', 'KycController@show');
-//Inbox
 
+    //Inbox
 /*Route::middleware($middleware)->get('/inbox/mark-all-as-read', 'InboxNotificationController@mark_all_as_read');*/
 Route::middleware($middleware)->get('/inbox/message-view/{notification}', 'InboxNotificationController@mark_all_as_read');
 Route::middleware($middleware)->resource('inbox', 'InboxNotificationController')->parameters([
         'inbox' => 'inbox_notification'
     ]);
 
-
-// Paystack
-
+    // Paystack
 Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
-
 Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
+
+    //BankAccounts
+Route::middleware($middleware)->get('/bank-accounts', 'BankAccountsController@index');
+Route::middleware($middleware)->get('/add-bank-account', 'BankAccountsController@addAccount');
+Route::middleware($middleware)->post('/add_account', 'BankAccountsController@add');
+Route::middleware($middleware)->get('/activate-account/{id}', 'BankAccountsController@activateAccount');
+
+    //Paystack transfers
+Route::middleware($middleware)->get('/activate-account/{}', 'BankAccountsController@activateAccount');
+Route::middleware($middleware)->get('/initiate_transaction/{id}', 'PaystackController@initiate');
+Route::middleware($middleware)->get('/finalize_transfer', 'PaystackController@finalizeTransfer')->name('otp');
+
+Route::middleware($middleware)->post('/bulkTransfer', 'PaystackController@bulkTransfer');
+
+// Route::middleware($middleware)->get('/disableOTP', 'PaystackController@disableOTP');
+// Route::middleware($middleware)->post('/finalizeOTPdisable', 'PaystackController@finalizeOTPdisable');
+
+
+
+

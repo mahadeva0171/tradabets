@@ -5,7 +5,6 @@ use App\Balance;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
 
-
 class PaymentHelper
 {
     public static function update_transaction($amount, $user_id, $reference, $status)
@@ -45,5 +44,21 @@ class PaymentHelper
     {
         return Transaction::where('id', $reference)->first()->user_id;
 
+    }
+    public static function create_transaction($amount, $user_id,$status)
+    {
+        $avail_balance = Balance::where('user_id', $user_id)->first()->balance;
+        $balance_amt = $avail_balance + $amount;
+        $final_balance = DB::table('balance')
+            ->where('user_id', $user_id)
+            ->update(['balance' => $balance_amt]);
+        session([
+            'avail_balance' => $balance_amt
+        ]);
+        \App\Models\Transaction::create(['user_id' => $user_id,
+            'status' => $status,
+            'amount' => $amount,
+            'opening_balance' => $avail_balance,
+            'closing_balance' => $balance_amt,]);
     }
 }

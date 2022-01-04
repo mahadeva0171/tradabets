@@ -7,7 +7,7 @@
     <section class="body-sign">
         <div class="center-sign">
             <a href="/" class="logo float-left">
-                <img src="/themes/admin/img/logo-placeholder.png.png" height="54" alt="{{ env('APP_NAME') }}" />
+                <img src="/themes/admin/img/logo-placeholder.png" height="54" alt="{{ env('APP_NAME') }}" />
             </a>
 
             <div class="panel card-sign">
@@ -50,7 +50,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <a href="/" class="logo float-left">
-                        <img src="/themes/admin/img/logo-placeholder.png.png" height="54" alt="{{ env('APP_NAME') }}" />
+                        <img src="/themes/admin/img/logo-placeholder.png" height="54" alt="{{ env('APP_NAME') }}" />
                     </a>
                     <h4 class="modal-title">    <div class="card-title-sign mt-3 text-right">
                             <h2 class="title text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i> Recover Password</h2>

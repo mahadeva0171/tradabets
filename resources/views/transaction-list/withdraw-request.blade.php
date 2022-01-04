@@ -21,10 +21,20 @@
 
                 <div class="text-right p-1">
                     @php $kyc_status=Session::get('kyc_status'); @endphp
-                  {{ ($kyc_status == 1)?  Form::submit('Request', ['class' => 'btn btn-sm btn-primary']) :   Form::submit('Request', ['class' => 'btn btn-sm btn-primary','disabled']) }}
+                    @php $account_status=Session::get('account_status'); @endphp
+
+                {{ Form::hidden('kycstatus', $kyc_status, ['id' => 'kycstatus']) }}
+                {{ Form::hidden('accountstatus', $account_status, ['id' => 'accountstatus']) }}
+                {{ Form::submit('Request', ['class' => 'btn btn-sm btn-primary']) }}
+                  <!-- {{ ($kyc_status == 1)?  Form::submit('Request', ['class' => 'btn btn-sm btn-primary']) :   Form::submit('Request', ['class' => 'btn btn-sm btn-primary','disabled']) }} -->
 
                 </div>
+                <div class="row form-view-row">
+                    <div class="col-xs-4 col-md-4 fnt-b"></div>
+                    <div class="col-xs-8 col-md-8"><span class="kyc-status-message"></span></div>
+                </div>
                 {!! Form::close() !!}
+                
             </div>
             <div class="col-lg-6">
                 <div class="row form-view-row">

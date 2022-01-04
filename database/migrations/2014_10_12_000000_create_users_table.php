@@ -33,4 +33,5 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('users');
     }
+    // if(Schema::hasTable('users')) return; 
 }

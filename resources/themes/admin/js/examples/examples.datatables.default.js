@@ -13,7 +13,7 @@ Theme Version: 	2.1.1
 		var table = $('#datatable-default').dataTable({
 			dom: '<"row"<"col-lg-6"l><"col-lg-6"f>><"table-responsive"t>p',
 			"lengthMenu": [ [25, 50, 100, 150, 250, -1], [25, 50, 100, 150, 250, "All"] ],
-			"pageLength": 150,
+			"pageLength": 50,
 			"orderCellsTop": true,
 			"order": [],
 				"columnDefs": [{

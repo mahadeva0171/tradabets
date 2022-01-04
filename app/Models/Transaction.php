@@ -8,11 +8,9 @@ class Transaction extends Model
 {
     //
 
-
     protected $table = 'transaction';
     protected $fillable = ['user_id','status','amount','closing_balance','opening_balance', 'transaction_reference'];
     protected $primaryKey = 'id';
-
 
     public function user()
     {
@@ -32,6 +30,9 @@ class Transaction extends Model
         }
         elseif ($status=='rejected'){
             return 'Rejected';
+        }
+        elseif ($status=='request'){
+            return 'Request';
         }
         else{
             return 'Bonus';

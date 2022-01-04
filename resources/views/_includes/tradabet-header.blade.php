@@ -4,11 +4,6 @@
 
     <section class="body">
 
-
-
-
-
-
          <div class="col-lg-12 home-page-header">
 
              <div class="container container-template">
@@ -104,6 +99,19 @@
 
 
                             <div class="form-group mb-3">
+                                <label>E-Mail Address/ Phone Number</label>
+                                <div class="input-group">
+                                    {{ Form::text('email', old('user_name'), ['class' => 'form-control form-control-lg login-email', 'required' => true, 'autofocus' => true, 'tabindex' => 1]) }}
+                                    <span class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </span>
+                                </div>
+                                <span id="email-message"></span>
+                            </div>
+
+                            <!-- <div class="form-group mb-3">
                                 <label>E-Mail Address</label>
                                 <div class="input-group">
                                     {{ Form::text('email', old('user_name'), ['class' => 'form-control form-control-lg login-email', 'required' => true, 'autofocus' => true, 'onfocusout'=>'loginEmailVerify()', 'tabindex' => 1]) }}
@@ -114,7 +122,7 @@
                                 </span>
                                 </div>
                                 <span id="email-message"></span>
-                            </div>
+                            </div> -->
 
                             <div class="form-group mb-3">
                                 <div class="clearfix">
@@ -194,7 +202,7 @@
 
                             <div class="form-group mb-3">
                                 <label>E-Mail Address</label>
-                                {{ Form::text('email', old('email'), ['class' => 'form-control email-input', 'required' => true, 'onfocusout' =>'emailVerify()', 'onkeypress'=>'emailMessageClear()']) }}
+                                {{ Form::text('email', old('email'), ['class' => 'form-control email-input', 'required' => false, 'onfocusout' =>'emailVerify()', 'onkeypress'=>'emailMessageClear()']) }}
                                 <span id="email-id"></span>
                             </div>
 
@@ -221,7 +229,7 @@
                                     <span class="mandatory-fields"></span>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="button"  class="next action-button btn btn-primary mt-2" onclick="fieldsetToggle()">Next</button>
+                                    <button type="button"  class="next action-button btn btn-primary mt-2" onclick="fieldsetToggleNew()">Next</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -240,7 +248,10 @@
                                 </div>--}}
                                 <div class="form-group mb-3">
                                     <label>Phone</label>
-                                    {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>10, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }}
+                                    <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }} -->
+                                        
+                                    <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }} -->
+                                    {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }}
                                     <span id="phone"></span>
                                 </div>
                                 <div class="form-group mb-3">
@@ -267,7 +278,7 @@
 
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <button class="btn btn-primary mt-2" onclick="fieldsetToggle()">Previous</button>
+                                        <button class="btn btn-primary mt-2" onclick="fieldsetToggleNew()">Previous</button>
                                     </div>
                                     <div class="col-sm-4">
 
@@ -300,7 +311,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <a href="/" class="logo float-left">
-                            <img src="/themes/admin/img/logo-placeholder.png.png" height="54" alt="{{ env('APP_NAME') }}" />
+                            <img src="/themes/admin/img/logo-placeholder.png" height="54" alt="{{ env('APP_NAME') }}" />
                         </a>
                         <h4 class="modal-title">    <div class="card-title-sign mt-3 text-right">
                                 <h2 class="title text-uppercase font-weight-bold m-0"><i class="fas fa-user mr-1"></i> Recover Password</h2>

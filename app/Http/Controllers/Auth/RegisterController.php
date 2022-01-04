@@ -246,11 +246,23 @@ class RegisterController extends Controller
         {
             return 1;
         }
-
-
         // view
-
     }
+    public function phoneCheck($postData)
+    {
+        // data
+        $phone_check=User::where('phone',$postData)->get()->all();
+        if($phone_check!=null)
+        {
+            return 0;
+        }
+        else
+        {
+            return 1;
+        }
+        // view
+    }
+
     /**
      * The user has been registered.
      *

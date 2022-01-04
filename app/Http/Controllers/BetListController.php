@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Balance;
 use App\Models\InboxNotification;
 use App\Models\Transaction;

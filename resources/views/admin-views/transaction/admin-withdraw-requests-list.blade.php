@@ -9,39 +9,43 @@
         <div class="card-body">
 
             <div class="col-lg-12">
-                <table class="table table-responsive-lg table-bordered table-striped mb-0" id="datatable-default">
+              <form id="withdraw-request-lists-form" method="POST">
+                <table class="table table-responsive-lg table-bordered table-striped mb-0 withdraw_table" id="datatable-default" >
                     <thead>
-                    <th class="is-status">Name</th>
-                    <th class="is-status">Amount</th>
-                    <th class="is-status">Status</th>
-                    <th class="is-status">Date</th>
-                    <th class="is-status">Action</th>
+                            <th class="bulkCheckbox nummer"><input type="checkbox" name="checkProducts" onclick="checkAll('#datatable-default', this)" />Select All</th>
+                            <th class="is-status">Name</th>
+                            <th class="is-status">Amount</th>
+                            <th class="is-status">Status</th>
+                            <th class="is-status">Date</th>
+                            <th class="is-status">Action</th>
+                            <th><div class="approve_reject_all"><input class="btn btn-primary" style="font-size: smaller;" type="button" value="Approve Selected" onclick="getSelectedCheckboxes()">
+                                <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject Selected" onclick=""></div></th>
                     </thead>
+                    
                     <tbody>
-                    @foreach($withdraw_requests as $row)
-                        <tr>
-                            <td>{{$row->user->first_name}} {{$row->user->last_name}}</td>
-                            <td>{{$row->amount}}</td>
-                            <td>{{$row->status_description}}</td>
-                            <td>{{$row->created_at}}</td>
-                            <td>
-                                <a href="/withdraw-request/view/{{$row->id}}">View Details</a></td>
-                        </tr>
-                    @endforeach
+                        @foreach($withdraw_requests as $row)
+                            <tr>
+                                <td><input class="bulkCheckbox" type="checkbox" name="select_request" class="select_request" value="{{$row->id}}"/></td>
+                                <td>{{$row->user->first_name}} {{$row->user->last_name}}</td>
+                                <td>{{$row->amount}}</td>
+                                <td>{{$row->status_description}}</td>
+                                <td>{{$row->created_at}}</td>
+
+                                <td><a href="/withdraw-request/view/{{$row->id}}">View Details</a></td>
+
+                                <td>
+                                <div class="approve_reject"><input class="btn btn-primary" style="font-size: smaller;" type="button" value="Approve" onclick="location.href='/initiate_transaction/{{$row->id}}'">
+                                     <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject" onclick="location.href='/withdraw-request-individual-reject/update/{{$row->id}}'">
+                                </div>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
+
+              </form>
             </div>
         </div>
-        <!-- <footer class="card-footer">
-          <div class="row">
-        <div class="col-md-6">
-                <a href="/forms/area" class="btn btn-default">Cancel</a>
-        </div>
-        <div class="col-md-6 text-right">
-                <a href="#" class="btn btn-primary" id="txtEdit">Add</a>
-        </div>
-    </div>
 
-        </footer> -->
     </section>
 
 @endsection

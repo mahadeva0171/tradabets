@@ -50,6 +50,7 @@
                         <li>
                             <a href="/document-upload" class="nav-link"><img class="user-menu-icons" src="/themes/admin/img/kycinfo.png"><span>KYC</span></a>
                         </li>
+                        
                     </ul>
 
                 @else

@@ -39605,3 +39605,11 @@ html.dark .wizard-progress .wizard-steps li.active a span {
 	background-color: #0088cc;
 }
 
+.approve_reject input{
+  display: block;
+  float: left;
+  margin-right: 2px;
+}
+.approve_reject_all input{
+  margin: 5px;
+}

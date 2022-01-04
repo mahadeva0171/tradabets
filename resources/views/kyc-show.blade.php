@@ -8,8 +8,6 @@
 
         <div class="card-body">
 
-
-
             <div class="col-lg-12">
                 <table class="table table-responsive-lg table-bordered table-striped mb-0" id="datatable-default">
                     <thead>
@@ -36,6 +34,7 @@
                 </table>
             </div>
         </div>
+        
         <!-- <footer class="card-footer">
           <div class="row">
         <div class="col-md-6">

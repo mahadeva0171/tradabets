@@ -97,6 +97,11 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\kycDocument', 'user_id', 'id');
     }
+    public function userBankDetails()
+    {
+        return $this->hasMany('App\UserBankDetails', 'user_id', 'id');
+    }
+
     public static function select_list()
     {
         // get

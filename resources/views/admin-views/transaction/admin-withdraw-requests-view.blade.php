@@ -15,7 +15,6 @@
         </header>
         <div class="card-body">
 
-
             {{--@include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])--}}
 
             <div class="row">
@@ -23,9 +22,9 @@
 
                     @include('_components.form-elements.text-view-md6', ['label' => 'First Name', 'value' => $withdraw->user->first_name.' '. $withdraw->user->last_name])
 
-                    @include('_components.form-elements.text-view-md6', ['label' => 'Document Type', 'value' => $withdraw->amount])
+                    @include('_components.form-elements.text-view-md6', ['label' => 'Amount', 'value' => $withdraw->amount])
 
-                    @include('_components.form-elements.text-view-md6', ['label' => 'Uploaded Date', 'value' => $withdraw->created_at])
+                    @include('_components.form-elements.text-view-md6', ['label' => 'Requested Time', 'value' => $withdraw->created_at])
 
                     @include('_components.form-elements.text-view-md6', ['label' => 'Status', 'value' => $withdraw->status])
                     {{Form::hidden('form[status]',0,array("class"=>'status-message'))}}
@@ -54,7 +53,6 @@
                 <div class="col-md-6 text-right">
                     <input class="btn btn-primary" type="button" value="Approve" onclick="documentStatus(this)">
                     <input class="btn btn-danger" type="button" value="Reject" onclick="documentStatus(this)">
-
                 </div>
             </div>
 

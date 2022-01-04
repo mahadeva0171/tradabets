@@ -107,7 +107,11 @@ return [
             'title' => '<span>KYC</span>',
             'prepend-title' => '<img class="user-menu-icons" src="/themes/admin/img/kycinfo.png"/>',
         ],
-
+        [
+            'uri' => '/bank-accounts',
+            'title' => '<span>Bank Accounts</span>',
+            'prepend-title' => '<img class="user-menu-icons" src="/themes/admin/img/kycinfo.png"/>',
+        ],
 
         //AnswerType
 

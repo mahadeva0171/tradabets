@@ -13,9 +13,6 @@
             <div class="col-lg-6">
 
 
-
-
-
                 {!! Form::open(['url' => '/payment-request','id' => 'paypalForm','class' => 'form-horizontal is-dashboard-filter-form', 'method' => 'get','onsubmit'=>'return depositAmountValidation()']) !!}
 
 
@@ -26,8 +23,6 @@
                     <div class="col-xs-4 col-md-4 fnt-b"></div>
                     <div class="col-xs-8 col-md-8"><span class="amount-validation-message"></span></div>
                 </div>
-
-
 
 {{--                <div class="text-right p-1">--}}
 {{--                    {{ Form::submit('Deposit with Paypal', ['class' => 'btn btn-sm btn-primary']) }}--}}
@@ -48,7 +43,7 @@
                              </div>
                 
 
-                {{-- PAYSTACK--}}
+                {{--  PAYSTACK  --}}
                                 <form method="POST" onsubmit="paystackFunction()" action="{{ route('pay') }}" id="paymentForm" accept-charset="UTF-8" class="form-horizontal" role="form">
                                     <div class="row" style="margin-bottom:0px;">
                                         <div class="col-md-12 col-md-offset-2">
@@ -76,7 +71,7 @@
                                 </form>
 
 
-{{--                                            PAYSTACK--}}
+                {{--  PAYSTACK  --}}
 
 
             </div>
@@ -86,17 +81,6 @@
             </div>
         </div>
 
-        <!-- <footer class="card-footer">
-          <div class="row">
-        <div class="col-md-6">
-                <a href="/forms/area" class="btn btn-default">Cancel</a>
-        </div>
-        <div class="col-md-6 text-right">
-                <a href="#" class="btn btn-primary" id="txtEdit">Add</a>
-        </div>
-    </div>
-
-        </footer> -->
     </section>
 
 @endsection

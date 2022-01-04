@@ -1,7 +1,6 @@
 <!doctype html>
 <html class="fixed">
 <head>
-
 	@include('_includes.html-header')
 
 

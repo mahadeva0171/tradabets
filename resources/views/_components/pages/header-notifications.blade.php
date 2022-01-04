@@ -28,7 +28,6 @@
 						<li>
 							<a href="/inbox/message-view/{{ $row->inbox_notification_id }}" class="clearfix">
 								<span class="title">{{ $row->subject  }}</span>
-
 							</a>
 						</li>
 						@endforeach

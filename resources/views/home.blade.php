@@ -119,9 +119,13 @@
                 </div>
             </div>
 
-
-
         </div> -->
+<!-- 
+        <div class="col-lg-6">
+             <button class='btn btn-md btn-success' onclick="location.href='/disableOTP'">Disable OTP for Transfers</button> 
+             <br>       
+        </div> -->
+
         <div class="col-lg-6">
 
             {!! Form::open(['url' => '/home','class' => 'form-horizontal is-dashboard-filter-form', 'method' => 'get']) !!}
@@ -136,15 +140,17 @@
                                     'class' => 'form-control form-control-sm'
                                 ]) }}
 
-        <div class="text-right p-1">
+                        <div class="text-right p-1">
                             {{ Form::submit('Update', ['class' => 'btn btn-sm btn-primary']) }}
                         </div>
                         {!! Form::close() !!}
-         </div>
+        </div>
+
+
          <div class="col-lg-12">
             <table class="table table-responsive-lg table-bordered table-striped mb-0" id="datatable-default">
                 <thead>
-                  <th class="is-status">Opening Balance</th>
+                    <th class="is-status">Opening Balance</th>
                     <th class="is-status">Amount</th>
                     <th class="is-status">Status</th>
                     <th class="is-status">Closing Balance</th>
@@ -163,7 +169,7 @@
                         <td>{{$row->closing_balance}}</td>
                         <td>{{$row->created_at}}</td>
            </tr>
-                @endforeach
+            @endforeach
             </tbody>
          </div>
     </section>

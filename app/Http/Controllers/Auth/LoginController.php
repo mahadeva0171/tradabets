@@ -49,12 +49,26 @@ class LoginController extends Controller
             //login successful, redirect the user to your preferred url/route...
              return 1;
         }
+        else if(Auth::attempt([ 'phone' => $request->username , 'password' => $request->password ], $request->remember)){ 
+             return 1;
+        }
         else{
            return 0;
         }
-
-
     }
+    
+    // public function userVerify(Request $request){
+
+    //     if(Auth::attempt([ 'email' => $request->username , 'password' => $request->password ], $request->remember)){ // login attempt
+    //         //login successful, redirect the user to your preferred url/route...
+    //          return 1;
+    //     }
+    //     else{
+    //        return 0;
+    //     }
+    // }
+
+
     /*public function index(Request $request)
     {
         if(auth::check()){

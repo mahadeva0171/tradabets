@@ -41,6 +41,7 @@ class PaymentController extends Controller
         );
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
+    
     public function payment(Request $request){
         $deposit_amt=$request->get('deposit_amount');
         $payer = new Payer();
@@ -62,8 +63,6 @@ class PaymentController extends Controller
         $transaction->setAmount($amount)
             ->setItemList($item_list)
             ->setDescription('Your transaction description');
-
-
 
         $redirect_urls = new RedirectUrls();
         $redirect_urls->setReturnUrl(URL::route('deposit-request')) /** Specify return URL **/
@@ -119,6 +118,7 @@ class PaymentController extends Controller
         $execution->setPayerId($_GET['PayerID']);
 
         $result=$payment->execute($execution, $this->_api_context);
+        
         if($result->getState()=='approved'){
             $user=auth()->user();
             PaymentHelper::create_transaction($amount,$user->id,'deposit');

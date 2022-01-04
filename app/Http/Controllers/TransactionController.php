@@ -1,12 +1,12 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-
 use App\Balance;
+use App\UserBankDetails;
 use App\Models\InboxNotification;
 use App\Models\Transaction;
+use App\KycDocument;
 use App\User;
 use App\WithdrawRequest;
 use Illuminate\Http\Request;
@@ -34,7 +34,6 @@ class TransactionController extends Controller
     public function index(Request $request)
     {
         $user=auth()->user();
-
 
         $view_data=[];
 
@@ -69,7 +68,6 @@ class TransactionController extends Controller
     public function deposit(Request $request)
     {
         $user=auth()->user();
-
 
         $view_data=[];
         $date=now();
@@ -129,6 +127,7 @@ class TransactionController extends Controller
 
         return view('transaction-list.withdraw-index',$view_data);
     }
+
     public function depositForm(Request $request)
     {
         $user=auth()->user();
@@ -151,7 +150,8 @@ class TransactionController extends Controller
 
         return view('transaction-list.withdraw-request',$view_data);
     }
-     public function reverseWithdraw(Request $request, WithdrawRequest $withdraw)
+
+    public function reverseWithdraw(Request $request, WithdrawRequest $withdraw)
     {
         $user=Auth()->user();
         $reverse_withdraw_amount=WithdrawRequest::where([['user_id',$user->id],['id',$withdraw->id]])->first()->amount;
@@ -181,14 +181,46 @@ class TransactionController extends Controller
             return view('_security.restricted-area.show');
         }
     }
+
     public function withdrawAmount(Request $request)
     {
+        
         $user=auth()->user();
+        $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
+        if($kyc_update!=null)
+        {
+          $kyc_status = 1;
+        }
+        else
+        {
+            $kyc_update=KycDocument::where([['user_id',$user->id],['status','pending']])->get()->all();             
+            if($kyc_update!=null)
+                {
+                    $kyc_status = 2;
+                }
+                else
+                {
+                    $kyc_status = 0;
+
+                }
+
+        }
+        if ($kyc_status != 1) {
+            return redirect('/withdraw');
+        }
         $avail_balance= Balance::where('user_id',$user->id)->first()->balance;
         $balance_amt=$avail_balance-$request->withdraw_amount;
+        $recipient_code = DB::table('user_bank_accounts')
+                            ->where(['user_id' => $user->id])
+                            ->where(['Active_status' => "Active"])
+                            ->pluck('recipient_code');
+
         WithdrawRequest::create(['user_id'=>$user->id,
                                  'status'=>'pending',
-                                   'amount'=>$request->withdraw_amount,]);
+                                 'amount'=>$request->withdraw_amount,
+                                 'recipient_code'=> $recipient_code[0],
+                               ]);
+
         Transaction::create(['user_id'=>$user->id,
             'status'=>'withdraw',
             'amount'=>$request->withdraw_amount,
@@ -209,10 +241,9 @@ class TransactionController extends Controller
         ]);
         //$balance->update($form_bal);
 
-
-
        return redirect('/withdraw');
     }
+    
     public function adminTransactionView(Request $request)
     {
         $view_data=[];
@@ -256,6 +287,8 @@ class TransactionController extends Controller
             return view('_security.restricted-area.show');
         }
     }
+
+
     public function adminBalanceView(Request $request)
     {
         $user=Auth()->user();
@@ -288,8 +321,8 @@ class TransactionController extends Controller
         {
             return view('_security.restricted-area.show');
         }
-
     }
+
     public function withdrawRequestLists(Request $request)
     {
         $user=Auth()->user();
@@ -302,17 +335,19 @@ class TransactionController extends Controller
             return view('_security.restricted-area.show');
         }
     }
+
     public function withdrawRequestListsView(Request $request, WithdrawRequest $withdraw)
     {
         $user=Auth()->user();
         if($user->role=='admin') {
-        $view_data=['withdraw'=>$withdraw];
+            $view_data=['withdraw'=>$withdraw];
             return view('admin-views.transaction.admin-withdraw-requests-view',$view_data);
         }
         else{
             return view('_security.restricted-area.show');
         }
     }
+
     public function withdrawRequestListsUpdate(Request $request, WithdrawRequest $withdraw)
     {
         $form=[];
@@ -320,25 +355,26 @@ class TransactionController extends Controller
         if($user->role=='admin') {
             $form = $request->form;
             $withdraw->update($form);
-              if($form['status']=='rejected')
+
+            if($form['status']=='rejected')
             {
-             $avail_balance= Balance::where('user_id',$withdraw->user_id)->first()->balance;
-            if($avail_balance!=null)
-            {
-                $balance_amt=$avail_balance+$withdraw->amount;
-                $final_balance = DB::table('balance')
-                    ->where('user_id',$withdraw->user_id)
-                    ->update(['balance' => $balance_amt]);
-                session([
-                    'avail_balance' => $balance_amt
-                ]);
-                \App\Models\Transaction::create(['user_id'=>$withdraw->user_id,
-                'status'=>'rejected',
-                'amount'=>$withdraw->amount,
-                'opening_balance'=>$avail_balance,
-                'closing_balance'=>$balance_amt,]);
-                //var_dump($balance);
-            }
+               $avail_balance= Balance::where('user_id',$withdraw->user_id)->first()->balance;
+                if($avail_balance!=null)
+                {
+                    $balance_amt=$avail_balance+$withdraw->amount;
+                    $final_balance = DB::table('balance')
+                        ->where('user_id',$withdraw->user_id)
+                        ->update(['balance' => $balance_amt]);
+                    session([
+                        'avail_balance' => $balance_amt
+                    ]);
+                    \App\Models\Transaction::create(['user_id'=>$withdraw->user_id,
+                    'status'=>'rejected',
+                    'amount'=>$withdraw->amount,
+                    'opening_balance'=>$avail_balance,
+                    'closing_balance'=>$balance_amt,]);
+                    //var_dump($balance);
+                }
             }
             InboxNotification::create([
                 'receiver' => $withdraw->user_id,
@@ -351,5 +387,102 @@ class TransactionController extends Controller
             return view('_security.restricted-area.show');
         }
     }
+
+    public function withdrawRequestIndividualUpdate(Request $request, $id)
+    {
+        $user = DB::table('withdraw_requests')
+            ->select('user_id')
+            ->where('id', $id)
+            ->first();
+        
+        $update = DB::table('withdraw_requests')
+            ->where('id', $id)
+            ->update(['status' => "approved"]);
+
+        $recipient_code = DB::table('user_bank_accounts')
+            ->select('recipient_code')
+            ->where(['id', $id],['user_id', $user]);
+
+        return redirect('/withdraw-requests');
+    }
+
+    public function withdrawRequestIndividualRejectUpdate(Request $request, $id)
+    {
+        $update = DB::table('withdraw_requests')
+            ->where('id', $id)
+            ->update(['status' => "rejected"]);
+
+        $result = DB::table('withdraw_requests')
+            ->select('user_id','amount')
+            ->where('id', $id)
+            ->first();
+
+             $avail_balance= Balance::where('user_id',$result->user_id)->first()->balance;
+                if($avail_balance!=null)
+                {
+                    $balance_amt=$avail_balance+$result->amount;
+                    $final_balance = DB::table('balance')
+                        ->where('user_id',$result->user_id)
+                        ->update(['balance' => $balance_amt]);
+                    session([
+                        'avail_balance' => $balance_amt
+                    ]);
+                   $transaction = Transaction::create(['user_id'=>$result->user_id,
+                    'status'=>'rejected',
+                    'amount'=>$result->amount,
+                    'opening_balance'=>$avail_balance,
+                    'closing_balance'=>$balance_amt,]);
+                }
+
+        return redirect('/withdraw-requests');
+    }
+
+
+// ***********************  new function for creating payment transaction report for paystack transfers
+
+//     public function paystackPaymentReport(Request $request)
+//     {
+//         $view_data=[];
+//         $user=Auth()->user();
+//         if($user->role=='admin') {
+//             $filter_arr = [
+//                 'date_from' => date("Y-m-d", strtotime("last week saturday")),
+//                 'date_to' => date("Y-m-d", strtotime("tomorrow")),
+//                 'user' => null,
+//                 'status' => null,
+//             ];
+//             if ($request->form) {
+//                 if ($request->form['user'] != null && $request->form['status'] != null) {
+//                     $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
+//                     $transaction = Transaction::where('status', $request->form['status'])->whereIn('user_id', $users)
+//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+//                 } else if ($request->form['user'] != null) {
+//                     $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
+//                     $transaction = Transaction::whereIn('user_id', $users)
+//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+//                 } else if ($request->form['status'] != null) {
+//                     $transaction = Transaction::where('status', $request->form['status'])
+//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+//                 } else {
+
+//                     $transaction = Transaction::whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+//                 }
+//             } else {
+//                 $transaction = Transaction::whereBetween('created_at', array($filter_arr['date_from'], $filter_arr['date_to']))->get()->all();
+//             }
+//             $filter_arr = ($request->form) ? array_merge($filter_arr, $request->form) : $filter_arr;
+//             $users = user::select_list()->all();
+
+//             // $balance= Balance::where('user_id',$user->id)->get()->all();
+
+//             $view_data = ['transaction' => $transaction, 'users' => $users, 'filter_arr' => $filter_arr];
+
+//             return view('admin-views.transaction.admin-transaction-list', $view_data);
+//         }
+//         else{
+//             return view('_security.restricted-area.show');
+//         }
+//     }
+
 
 }

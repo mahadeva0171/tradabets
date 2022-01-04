@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\KycDocument;
 use App\Models\InboxNotification;
@@ -146,3 +144,6 @@ class KycController extends Controller
     }
 }
 
+
+// KYC verification by paystack with BVN
+// https://paystack.com/docs/identity-verification/verify-bvn-match/

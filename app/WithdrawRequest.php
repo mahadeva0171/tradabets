@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class WithdrawRequest extends Model
 {
     protected $table = 'withdraw_requests';
-    protected $fillable = ['user_id','amount','status'];
+    protected $fillable = ['user_id','amount','status','recipient_code'];
     protected $primaryKey = 'id';
 
 

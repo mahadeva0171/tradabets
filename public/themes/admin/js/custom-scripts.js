@@ -1,8 +1,6 @@
 
 // doc ready
 
-
-
 $(document).ready(function(){
 
 	// delete form
@@ -197,14 +195,13 @@ function onlyCharacters(e, t) {
         alert(err.Description);
     }
 }
-function fieldsetToggle()
+function fieldsetToggleNew()
 {
     if($("#first-page").is(":visible")){debugger;
-        if($('.first-name').val()!="" && $('.last-name').val()!="" && $('.date-of-birth').val()!="" && $('.email-input').val()!="" && $('.password').val()!="" && $('.confirm-password').val()!=""){
+        if($('.first-name').val()!="" && $('.last-name').val()!="" && $('.date-of-birth').val()!="" && $('.password').val()!="" && $('.confirm-password').val()!=""){
             var resultEmail = emailVerify();
             var resultPassword=passwordVerify();
-            //var resultPhone= phoneNumberVerify();
-            //var resultPassword=passwordVerify();
+            var resultPhone= phoneNumberVerify();
             if(resultEmail!=false && resultPassword!=false ) {
                 $('#first-page').css('display', 'none');
                 $('#second-page').css('display', 'block');
@@ -285,18 +282,35 @@ function forgotPasswordURL(){debugger;
         }
     });
 }
+
 function amountValidationMessageClear(){
     $(".amount-validation-message").text('');
 }
+
 function amountValidation(){
     var withdraw_amount=parseFloat($('.withdraw-amount-input').val());
     var balance_amount=parseFloat($('.balance-amount').text());
+    var kyc_status = ($('#kycstatus').val());
+    var account_status = ($('#accountstatus').val());
+
+
     if(withdraw_amount <= 0 || withdraw_amount > balance_amount){
         $('.amount-validation-message').text('Please enter the valid amount for withdraw');
         $('.amount-validation-message').css('color','red');
         return false;
     }
+    if(kyc_status != '1'){
+        $('.kyc-status-message').text('Please complete the kyc verification process!');
+        $('.kyc-status-message').css('color','red');
+        return false;
+    }
+    else if(account_status != '1'){
+        $('.kyc-status-message').text('Please add a bank account!');
+        $('.kyc-status-message').css('color','red');
+        return false;
+    }
 }
+
 function depositAmountValidation(){debugger;
     var deposit_amount=parseFloat($('.deposit_amount').val());
 
@@ -306,6 +320,7 @@ function depositAmountValidation(){debugger;
         return false;
     }
 }
+
 function documentStatus(t){
     if(t.value=="Reject")
     {
@@ -318,6 +333,10 @@ function documentStatus(t){
     }
 }
 
+function approveRejectDocument(t,value){
+
+
+}
 
 $(document).ready(function(){
     $('#second-page').css('display','none');
@@ -363,21 +382,54 @@ $( function() {
 
 } );
 function phoneNumberVerify(){
-    if($('.phone').val().length<10)
+    var userinput = $('.phone').val();
+    if($('.phone').val().length<1)
     {
-        $("#phone").text('Please enter 10 digit valid number');
+        $("#phone").text('Please enter valid number');
         $("#phone").css('color','red');
         return false;
     }
+    else
+    {
+        sessionStorage.setItem("ajax-return",true);
+        $.ajax({
+            type:'get',
+            url:'/phoneCheck/'+userinput,
+            dataType:'json',
+            async:false
+        }).done(function(view_data){
+           if(view_data!=1) {
+               $("#phone").text('User already registered with this phone number. Please use other Phone Number.');
+               $("#phone").css('color', 'red');
+               sessionStorage.setItem("ajax-return",false);
+           }
+
+        });
+        if(sessionStorage.getItem('ajax-return')=="false"){
+            return false;
+        }
+
+    }
 }
+
+// function phoneNumberVerify(){
+//     if($('.phone').val().length<10)
+//     {
+//         $("#phone").text('Please enter 10 digit valid number');
+//         $("#phone").css('color','red');
+//         return false;
+//     }
+// }
+
 function emailVerify(){
     var userinput = $('.email-input').val();
     var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
 
     if(!pattern.test(userinput)) {
-        $("#email-id").text('Enter valid email address');
-        $("#email-id").css('color','red');
-        return false;
+        // commented for email as optional
+        // $("#email-id").text('Enter valid email address');
+        // $("#email-id").css('color','red');
+        // return false;
     }
     else
     {
@@ -389,7 +441,7 @@ function emailVerify(){
             async:false
         }).done(function(view_data){
            if(view_data!=1) {
-               $("#email-id").text('Email already taken');
+               $("#email-id").text('User already registered with this email. Please use other email.');
                $("#email-id").css('color', 'red');
                sessionStorage.setItem("ajax-return",false);
            }
@@ -594,7 +646,7 @@ $(document).ready(function(){
 
 
 
-function paystackFunction(){debugger;
+    function paystackFunction(){debugger;
         deposit_amount=$("#deposit_block").val();
         $("#paystack_amount").val(deposit_amount*100);
         
@@ -618,5 +670,42 @@ function paystackFunction(){debugger;
         else if ($(paypl).is(":checked")) {
             $(paypalForm).submit();
         }
+    }
 
+    function checkAll(table, bx) {
+
+        var checkname = document.getElementsByClassName("bulkCheckbox");
+
+        for (i = checkname.length; i--; ) {
+            console.log(checkname[i]);
+            console.log(bx);
+            checkname[i].checked = bx.checked;
+        }
+    }
+
+    function getSelectedCheckboxes() {
+        var checkboxes = document.getElementsByName('select_request');
+        var selected_requests = [];
+        for (var checkbox of checkboxes) {
+            if (checkbox.checked) {
+                selected_requests.push(checkbox.value);
+            }
+        }
+        // alert($('meta[name="csrf-token"]').attr('content'));
+                $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+            $.ajax({
+                type:'post',
+                url:'/bulkTransfer',
+                data:{ data : selected_requests },
+                success:function(data){
+                    // console.log(data);
+                },
+                error: function(e){
+                    //alert(e.error);
+                }
+            });
     }
