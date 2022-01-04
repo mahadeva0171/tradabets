@@ -702,7 +702,7 @@ $(document).ready(function(){
                 url:'/bulkTransfer',
                 data:{ data : selected_requests },
                 success:function(data){
-                    // console.log(data);
+                    console.log(data);
                 },
                 error: function(e){
                     //alert(e.error);

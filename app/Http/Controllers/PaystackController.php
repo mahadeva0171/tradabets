@@ -357,36 +357,35 @@ class PaystackController extends Controller
           
           //execute post
           $result = curl_exec($ch);
-          // echo $result;
+          echo $result;
 
-          $finalize = json_decode($result);
-          $status = $finalize->status;
-          $message = $finalize->data->status;
-          $reference = $finalize->data->reference;
-          $amount = $finalize->data->amount;
-          $reason = $finalize->data->reason;
-          $transfer_code = $finalize->data->transfer_code;
-          $createdAt = $finalize->data->createdAt;
+          // $finalize = json_decode($result);
+          // $status = $finalize->status;
+          // $message = $finalize->data->status;
+          // $reference = $finalize->data->reference;
+          // $amount = $finalize->data->amount;
+          // $reason = $finalize->data->reason;
+          // $transfer_code = $finalize->data->transfer_code;
+          // $createdAt = $finalize->data->createdAt;
 
-          if ($status) {
+          // if ($status) {
 
-            // $values = array('reference' => '$reference', 'amount_in_cobo' => '$amount', 'reason' => '$reason', 'status' => '$message', 'transfer_code' => '$transfer_code', 'createdAt' => '$createdAt');
-            // $query =  DB::table('paystack_transfer_initiate')->insert($values);
+          //   // $values = array('reference' => '$reference', 'amount_in_cobo' => '$amount', 'reason' => '$reason', 'status' => '$message', 'transfer_code' => '$transfer_code', 'createdAt' => '$createdAt');
+          //   // $query =  DB::table('paystack_transfer_initiate')->insert($values);
 
-            // if (!query) {
-            //     // code...
-            //     echo "<script> alert('Error: Transfer initiated details could not be stored in the database'); </script>";
-            // }
-            // else {
-            //     return redirect('/withdraw-requests');
-            // }
-            echo "<script> alert('Error: Transfer success!'); </script>";
+          //   // if (!query) {
+          //   //     // code...
+          //   //     echo "<script> alert('Error: Transfer initiated details could not be stored in the database'); </script>";
+          //   // }
+          //   // else {
+          //   //     return redirect('/withdraw-requests');
+          //   // }
+          //   echo "<script> alert('Error: Transfer success!'); </script>";
 
-          }
-          else
-            echo "<script> alert('Error: Transfer could not be finalized'); </script>";
-          
-
+          // }
+          // else
+          //   echo "<script> alert('Error: Transfer could not be finalized'); </script>";
+        
     }
 
     // public function disableOTP()
