@@ -437,6 +437,20 @@ class TransactionController extends Controller
         return redirect('/withdraw-requests');
     }
 
+    public function withdrawRequestBulkRejectUpdate(Request $request)
+    {
+
+        $selected_requests = request('data');
+
+        // $test = DB::table('withdraw_requests')
+        //         ->select('amount')
+        //         ->where('id', selected_requests[0]);
+
+        return $selected_requests[0];
+
+    }
+
+
 
 // ***********************  new function for creating payment transaction report for paystack transfers
 

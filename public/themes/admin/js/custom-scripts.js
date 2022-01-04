@@ -683,7 +683,7 @@ $(document).ready(function(){
         }
     }
 
-    function getSelectedCheckboxes() {
+    function ApproveSelected() {
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
         for (var checkbox of checkboxes) {
@@ -703,6 +703,33 @@ $(document).ready(function(){
                 data:{ data : selected_requests },
                 success:function(data){
                     console.log(data);
+                },
+                error: function(e){
+                    //alert(e.error);
+                }
+            });
+    }
+
+    function RejectSelected() {
+        var checkboxes = document.getElementsByName('select_request');
+        var selected_requests = [];
+        for (var checkbox of checkboxes) {
+            if (checkbox.checked) {
+                selected_requests.push(checkbox.value);
+            }
+        }
+        // alert($('meta[name="csrf-token"]').attr('content'));
+                $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+            $.ajax({
+                type:'post',
+                url:'/withdraw-request-bulk-reject',
+                data:{ data : selected_requests },
+                success:function(data){
+                    // console.log(data);
                 },
                 error: function(e){
                     //alert(e.error);

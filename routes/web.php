@@ -160,6 +160,7 @@ Route::middleware($middleware)->get('/withdraw-request/view/{withdraw}', 'Transa
 Route::middleware($middleware)->get('/withdraw-request/update/{withdraw}', 'TransactionController@withdrawRequestListsUpdate');
 Route::middleware($middleware)->get('/withdraw-request-individual/update/{id}', 'TransactionController@withdrawRequestIndividualUpdate');
 Route::middleware($middleware)->get('/withdraw-request-individual-reject/update/{id}', 'TransactionController@withdrawRequestIndividualRejectUpdate');
+Route::middleware($middleware)->post('/withdraw-request-bulk-reject', 'TransactionController@withdrawRequestBulkRejectUpdate');
 
     // user profile
 Route::middleware($middleware)->get('users/profile/{user}', 'UserProfileController@show');
