@@ -77,7 +77,7 @@ class BankAccountsController extends Controller
          $user=auth()->user();
          $bank_list=userBankDetails::where('user_id',$user->id)->get()->all();
          $view_data=['bank_list'=>$bank_list];
-         return view('Bank-accounts.bank-accounts',$view_data);
+         return view('Bank-accounts.bank-accounts', $view_data);
     }
 
     public function addAccount(Request $request)
@@ -88,17 +88,7 @@ class BankAccountsController extends Controller
     public function add(Request $request)
     {
         $user=auth()->user();
-    
-        // $id = DB::table('user_bank_accounts')
-        //     ->select('id')
-        //     ->where(['user_id' => $user->id],['Active_status' => "Active"])
-        //     ->first();
-
-        // $account_details = DB::table('user_bank_accounts')
-        //     ->select('account_number','bank_code','account_name')
-        //     ->where(['user_id' => $user->id],['Active_status' => "Active"])
-        //     ->first();
-
+        $validator = Validator();
         $AccountNumber = $request->form['account_number'];
         $BankCode = $request->form['bank_code'];
         $name = $request->form['account_name'];
@@ -109,8 +99,7 @@ class BankAccountsController extends Controller
             ->count();
 
           if ($account_check != null) {
-            echo "<script> alert('Account already exists!');</script>";
-            return redirect('/bank-accounts');
+            return redirect('/bank-accounts')->with('errors', 'Account already exists!');
           }
           else {
         
@@ -139,7 +128,7 @@ class BankAccountsController extends Controller
                 if ($verify) {
                     # code...
                     $name = $result->data->account_name;
-                    echo "<script> alert('Account added & is verified with Bank Code');</script>";
+                    // echo "<script> alert('Account added & is verified with Bank Code');</script>";
 
 
                     if (!empty($name) && !empty($AccountNumber) && !empty($BankCode)) {
@@ -211,9 +200,10 @@ class BankAccountsController extends Controller
                                 echo 'There was an error';
                              }
                              else {
-
-                                return redirect('/bank-accounts');
-
+                                // session::flash('flash_message','successfully saved.'); 
+                                // return redirect('/bank-accounts');
+                                // return redirect()->route("bank_account");
+                                return redirect('/bank-accounts')->with('status', 'Account added & is verified with Bank Code!');
                               exit();
                              }
 
@@ -226,13 +216,14 @@ class BankAccountsController extends Controller
                     }
                 }
                 else {
-                    echo "<script> alert('Invalid Account Number or Bank Code, it is NOT resolved/verified');</script>";
-                    return view('Bank-accounts.add-bank-account');    
-                    exit();
+                    // $view_data={'error'=>'Invalid Account Number or Bank Code, it is NOT resolved/verified'};
+                    // return view('Bank-accounts.add-bank-account', $view_data);  
+
+                return redirect('/bank-accounts')->with('error', 'Invalid Account Number or Bank Code, it is NOT resolved/verified!');
+
                 }
           }
     }
-
 
     public function activateAccount(Request $request, $id)
     {
@@ -250,16 +241,6 @@ class BankAccountsController extends Controller
             ->update(['Active_status' => $change_state_active]);
 
         return redirect('/bank-accounts');
-
     }
-
-    public function test(Request $request)
-    {
-         $user=auth()->user();
-         $bank_list=userBankDetails::where('user_id',$user->id)->get()->all();
-         $view_data=['bank_list'=>$bank_list];
-         return view('Bank-accounts.bank-accounts',$view_data);
-    }
-
 
 }

@@ -189,7 +189,7 @@ Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
 Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 
     //BankAccounts
-Route::middleware($middleware)->get('/bank-accounts', 'BankAccountsController@index');
+Route::middleware($middleware)->get('/bank-accounts', 'BankAccountsController@index')->name('bank_account');
 Route::middleware($middleware)->get('/add-bank-account', 'BankAccountsController@addAccount');
 Route::middleware($middleware)->post('/add_account', 'BankAccountsController@add');
 Route::middleware($middleware)->get('/activate-account/{id}', 'BankAccountsController@activateAccount');

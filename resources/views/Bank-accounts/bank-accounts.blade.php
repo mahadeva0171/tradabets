@@ -3,7 +3,20 @@
 @section('main-title', 'Bank Accounts')
 
 @section('main-content')
-
+    @if (session('status'))
+        <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('status') }}
+        </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('error') }}
+        </div>
+    @elseif (session('errors'))
+        <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('errors') }}
+        </div>
+    @endif
+ 
     <section class="card">
     
         <div class="card-body">
@@ -35,7 +48,15 @@
                 </table>
             </div>
         </div>
+        <footer class="card-footer">
+            <div class="row">
 
+
+                <div class="col-md-12 text-right">
+                    <a href="{{ url('add-bank-account') }}" class="btn btn-primary" id="txtEdit">Add Bank Account</a>
+                </div>
+            </div>
+        </footer>
     </section>
 
 @endsection

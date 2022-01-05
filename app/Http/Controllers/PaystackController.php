@@ -304,7 +304,7 @@ class PaystackController extends Controller
           }
           else
             echo "<script> alert('Error: Transfer could not be finalized'); </script>";
-        
+          echo $result;
     }
 
 

@@ -736,3 +736,8 @@ $(document).ready(function(){
                 }
             });
     }
+
+    function accountExists() {
+            $('.account-message').text('Account already exists!');
+            $('.account-message').css('color','red');
+    }

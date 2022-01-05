@@ -20,7 +20,7 @@
                             <th class="is-status">Date</th>
                             <th class="is-status">Action</th>
                             <th><div class="approve_reject_all"><input class="btn btn-primary" style="font-size: smaller;" type="button" value="Approve Selected" onclick="ApproveSelected()">
-                                <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject Selected" onclick="RejectSelected()"></div></th>
+<!--                                 <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject Selected" onclick="RejectSelected()"></div></th> -->
                     </thead>
                     
                     <tbody>

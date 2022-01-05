@@ -104,7 +104,6 @@ class TransactionController extends Controller
     {
         $user=auth()->user();
 
-
         $view_data=[];
 
         $filter_arr = [

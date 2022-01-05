@@ -4,14 +4,14 @@
 
 @section('main-content')
 
-    {!! Form::open(['url' => '/add_account', 'method'=>'POST', 'class' => 'form-horizontal', 'files'=>true]) !!}
+    {!! Form::open(['url' => '/add_account', 'method'=>'POST', 'class' => 'form-horizontal', 'files'=>true, 'onsubmit'=>'return checkAccountExist()']) !!}
 
     <section class="card">
 			<h3><b>Add Bank Account</b></h3>
 
         <div class="card-body">
 
-            {{--            @include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])--}}
+            {{--     @include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])    --}}
 
             <div class="row">
                 <div class="col-md-12 col-lg-6">
@@ -35,17 +35,18 @@
         </div>
 
         <footer class="card-footer">
-
             <div class="row">
                 <div class="col-md-6">
-                    <span class="account-message"></span>
+                    <span class="account-message">{{ @$error }}</span>
                 </div>
+
+
                 <div class="col-md-6 text-right">
-                    {{ Form::submit('Save', ['class' => 'btn btn-primary', 'onsubmit'=>'return checkAccountExist()']) }}
+                    {{ Form::submit('Save', ['class' => 'btn btn-primary']) }}
                 </div>
             </div> <!-- /row -->
-
         </footer>
+
     </section>
 
     {!! Form::close() !!}
