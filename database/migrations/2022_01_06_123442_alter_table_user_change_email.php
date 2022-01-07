@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBankCodeToUserBankAccountsTable extends Migration
+class AlterTableUserChangeEmail extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class AddBankCodeToUserBankAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::table('user_bank_accounts', function (Blueprint $table) {
+        Schema::table('user', function (Blueprint $table) {
             //
-            $table->string('bank_code');
-            
+            $table->string('email')->nullable()->change();
         });
     }
 
@@ -27,8 +26,6 @@ class AddBankCodeToUserBankAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::table('user_bank_accounts', function (Blueprint $table) {
-            //
-        });
+        
     }
 }

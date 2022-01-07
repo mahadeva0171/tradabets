@@ -114,7 +114,6 @@ class RegisterController extends Controller
             /*'tenant_title' => ['required', 'string', 'min:3', 'max:150'],*/
             'first_name' => ['required', 'string', 'max:150'],
             'last_name' => ['required', 'string', 'max:150'],
-            'email' => ['required', 'string', 'email', 'max:150', Rule::unique('user', 'email')],
             'country' =>['required','string','max:150'],
             'state'=> ['required','string','max:150'],
             'city'=> ['required','string','max:150'],
@@ -124,7 +123,6 @@ class RegisterController extends Controller
         ], [], [
             'first_name' => 'Name',
             'last_name' => 'Surname',
-            'email' => 'E-Mail',
             'password' => 'Password',
             'phone' => 'Phone',
             'country'=> 'Country',
@@ -162,7 +160,7 @@ class RegisterController extends Controller
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             /*'user_name' => $data['email'],*/
-            'email' => $data['email'],
+            'email' => strlen($data['email']) > 0 ? $data['email'] : null,
             'date_of_birth'=>$data['date_of_birth'],
             'phone' =>$data['phone'],
             'password' => Hash::make($data['password']),

@@ -199,10 +199,9 @@
                                 <div class="input-group"><input class="form-control date-of-birth" name="date_of_birth" type="text" value="" id="datepicker" required autocomplete="false"><span class="input-group-append"><span class="input-group-text"><i class="fas fa-calendar-alt"></i></span></span></div>
                             </div>
 
-
                             <div class="form-group mb-3">
                                 <label>E-Mail Address</label>
-                                {{ Form::text('email', old('email'), ['class' => 'form-control email-input', 'required' => false, 'onfocusout' =>'emailVerify()', 'onkeypress'=>'emailMessageClear()']) }}
+                                {{ Form::text('email', old('email'), ['class' => 'form-control email-input', 'onfocusout' =>'emailVerify()', 'onkeypress'=>'emailMessageClear()']) }}
                                 <span id="email-id"></span>
                             </div>
 

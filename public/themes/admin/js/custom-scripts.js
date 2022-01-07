@@ -197,7 +197,7 @@ function onlyCharacters(e, t) {
 }
 function fieldsetToggleNew()
 {
-    if($("#first-page").is(":visible")){debugger;
+    if($("#first-page").is(":visible")){
         if($('.first-name').val()!="" && $('.last-name').val()!="" && $('.date-of-birth').val()!="" && $('.password').val()!="" && $('.confirm-password').val()!=""){
             var resultEmail = emailVerify();
             var resultPassword=passwordVerify();

@@ -9,7 +9,6 @@ use App\UserBankDetails;
 use GuzzleHttp\Client;
 use Illuminate\Support\Collection;
 
-
 class PaystackController extends Controller
 {
      /**
@@ -83,22 +82,8 @@ class PaystackController extends Controller
             ->where(['user_id', $user->user_id],['Active_status',"Active"]);
 
         $amount = round($user->amount * 100);
-        // $stored_recipient_code = '';
 
         $reason = "Withdrawal transfers";
-
-        // $check_recipient = UserBankDetails::select("*")
-        //                   ->where('recipient_code', $recipient_code)
-        //                   ->exists();
-
-        //  if ($check_recipient) {
-        //     $data = mysqli_fetch_array($check_recipient);
-        //     $stored_recipient_code = $data['recipient_code'];
-        //  }
-         // if ($recipient_code !== $stored_recipient_code) {
-         //    echo "<script>alert('Recipient Code stored does not match with the code received');</script>";
-         // }
-         // else {
 
               $url = $this->baseUrl . "/transfer";
               $fields = [
@@ -232,7 +217,6 @@ class PaystackController extends Controller
             echo "<script> alert('Error: Transfer could not be finalized'); </script>";
     }
 
-
     public function bulkTransfer(Request $request)
     {
 
@@ -249,7 +233,6 @@ class PaystackController extends Controller
                             $collection->push((object)[
                                 'amount' => $individualItem->amount,
                                 'recipient_code' => $individualItem->recipient_code,
-                                'reason' => "Transfer for Withdrawal request",
                             ]);
         }
 
@@ -258,7 +241,9 @@ class PaystackController extends Controller
           $fields = [
             'currency' => "NGN",
             'source' => "balance",
-            'transfers' => $collection,
+            'transfers' => [
+                $collection,
+            ]
           ];
 
           $fields_string = http_build_query($fields);
@@ -305,7 +290,8 @@ class PaystackController extends Controller
           else
             echo "<script> alert('Error: Transfer could not be finalized'); </script>";
           echo $result;
+          echo $collection;
     }
 
-
 }
+// 'reason' => "Transfer for Withdrawal request",
