@@ -148,7 +148,13 @@ class PaymentController extends Controller
 
         $paystack = new Paystack();
         $user = auth()->user();
-        $request->email = $user->email;
+        if($user->email != null){
+             $request->email = $user->email;
+        }
+        else{
+             $request->email = ((string)$user->phone) .'@tradabets.com';
+        }
+
         // $request->amount = $amount;
               
         $request->reference = PaymentHelper::initiate_transaction($user->id, 'request', $request->amount);

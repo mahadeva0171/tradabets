@@ -366,9 +366,8 @@ $(document).ready(function(){
     $(".dashboard-amount-balance").text(" "+avail_balance);
     //var header = $('.sports-list');
 
-
-
 });
+
 $( function() {
     var date = new Date();
     var currentMonth = date.getMonth();
@@ -691,8 +690,7 @@ $(document).ready(function(){
                 selected_requests.push(checkbox.value);
             }
         }
-        // alert($('meta[name="csrf-token"]').attr('content'));
-                $.ajaxSetup({
+        $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
@@ -702,7 +700,7 @@ $(document).ready(function(){
                 url:'/bulkTransfer',
                 data:{ data : selected_requests },
                 success:function(data){
-                    console.log(data);
+                    // console.log(data);
                 },
                 error: function(e){
                     //alert(e.error);
@@ -711,6 +709,7 @@ $(document).ready(function(){
     }
 
     function RejectSelected() {
+
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
         for (var checkbox of checkboxes) {
@@ -735,9 +734,10 @@ $(document).ready(function(){
                     //alert(e.error);
                 }
             });
+
     }
 
-    function accountExists() {
-            $('.account-message').text('Account already exists!');
-            $('.account-message').css('color','red');
+    function errorBulkTransfer() {
+            $('.error-message').text('Transfer could not be finalized');
+            $('.error-message').css('color','red');
     }

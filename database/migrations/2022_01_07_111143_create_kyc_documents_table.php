@@ -13,12 +13,14 @@ class CreateKycDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('kyc_documents');
-        
         Schema::create('kyc_documents', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id',false,true);
+            $table->string('name', 50);
+            $table->string('id_number', 100);
             $table->string('document_type');
+            $table->string('status', 20)->default('pending');
+            $table->string('remarks')->nullable();
             $table->binary('image_data');
             $table->timestamps();
 

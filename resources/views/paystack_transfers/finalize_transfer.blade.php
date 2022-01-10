@@ -1,6 +1,6 @@
 @extends('_layouts.master')
 
-@section('main-title', 'Deposit')
+@section('main-title', 'Verify')
 
 @section('main-content')
 

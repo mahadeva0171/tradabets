@@ -23,7 +23,8 @@ class CreateUserBankAccountsTable extends Migration
             $table->string('BVN_Number');
             $table->string('Active_status')->nullable();
             $table->string('bank_code');
-            
+            $table->string('recipient_code')->nullable();
+            $table->string('num_type')->nullable();
 
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
         });
@@ -39,42 +40,3 @@ class CreateUserBankAccountsTable extends Migration
         Schema::dropIfExists('user_bank_accounts');
     }
 }
-
-
-
-
-
-
-
-// <?php
-
-// use Illuminate\Database\Migrations\Migration;
-// use Illuminate\Database\Schema\Blueprint;
-// use Illuminate\Support\Facades\Schema;
-
-// class UpdateTransactionTable extends Migration
-// {
-//     /**
-//      * Run the migrations.
-//      *
-//      * @return void
-//      */
-//     public function up()
-//     {
-//         //
-//         Schema::table('transaction', function (Blueprint $table) {
-//            $table->string('transaction_reference')->nullable();
-//         });
-//     }
-
-//     /**
-//      * Reverse the migrations.
-//      *
-//      * @return void
-//      */
-//     public function down()
-//     {
-//         //
-//     }
-// }
-

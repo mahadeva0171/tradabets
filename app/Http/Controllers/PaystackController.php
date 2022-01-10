@@ -90,7 +90,7 @@ class PaystackController extends Controller
                 'source' => "balance",
                 'amount' => $amount,
                 'recipient' => $recipient_code,
-                'reason' => "$reason"
+                'reason' => $reason
               ];
               $fields_string = http_build_query($fields);
 
@@ -133,8 +133,7 @@ class PaystackController extends Controller
                         ->update(['status' => "approved"]);
 
                     if (!$query) {
-                        // code...
-                        echo "<script> alert('Error: Transfer initiated details could not be stored in the database'); </script>";
+                        return redirect('/withdraw-requests')->with('error1', 'Transfer initiated details could not be stored in the database');
                     }
                     else {
                         return redirect('/withdraw-requests');
@@ -151,11 +150,9 @@ class PaystackController extends Controller
                     exit();
                 }
                 else {
-                    echo "<script> alert('Error: Transfer could not be initiated, Contact the developer - " . $message ."' ); </script>";
-
+                    return redirect('/withdraw-requests')->with('error2', 'Transfer could not be initiated, Contact the developer - ' . $message);
                 }
              }
-        // }
     }
 
     public function finalizeTransfer(Request $request)
@@ -205,16 +202,17 @@ class PaystackController extends Controller
 
             // if (!query) {
             //     // code...
-            //     echo "<script> alert('Error: Transfer initiated details could not be stored in the database'); </script>";
+                   // return redirect('/withdraw-requests')->with('error1', 'Transfer initiated details could not be stored in the database');
+
             // }
             // else {
             //     return redirect('/withdraw-requests');
             // }
-            echo "<script> alert('Error: Transfer success!'); </script>";
+            return redirect('/withdraw-requests')->with('transfer-success', 'Transfer Success!');
 
           }
           else
-            echo "<script> alert('Error: Transfer could not be finalized'); </script>";
+            return redirect('/withdraw-requests')->with('error3', 'Transfer could not be finalized.');
     }
 
     public function bulkTransfer(Request $request)
@@ -241,10 +239,9 @@ class PaystackController extends Controller
           $fields = [
             'currency' => "NGN",
             'source' => "balance",
-            'transfers' => [
-                $collection,
-            ]
+            'transfers' => $collection
           ];
+            // echo $fields;
 
           $fields_string = http_build_query($fields);
           //open connection
@@ -262,7 +259,7 @@ class PaystackController extends Controller
           //execute post
           $result = curl_exec($ch);
           // echo $result;
-
+ 
           $finalize = json_decode($result);
           $status = $finalize->status;
           // $message = $finalize->data->status;
@@ -279,19 +276,25 @@ class PaystackController extends Controller
 
             // if (!query) {
             //     // code...
-            //     echo "<script> alert('Error: Transfer initiated details could not be stored in the database'); </script>";
-            // }
+                // return redirect('/withdraw-requests')->with('error1', 'Transfer initiated details could not be stored in the database');
+            // 
+          // }
             // else {
             //     return redirect('/withdraw-requests');
             // }
-            echo "<script> alert('Error: Transfer success!'); </script>";
+            return redirect('/withdraw-requests')->with('transfer-success', 'Transfer Success!');
 
           }
           else
-            echo "<script> alert('Error: Transfer could not be finalized'); </script>";
-          echo $result;
+            echo "<script> alert('Transfer could not be finalized'); </script>";
+echo '<script type="text/javascript">',
+     'errorBulkTransfer();',
+     '</script>'
+;
+          // echo $result;
           echo $collection;
     }
 
 }
-// 'reason' => "Transfer for Withdrawal request",
+
+

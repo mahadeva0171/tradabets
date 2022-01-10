@@ -253,6 +253,12 @@ return [
                 'badge-html' => '<span class="float-right badge badge-primary">[val]</span>',
             ]
         ],
+         [
+             'uri' => '/transaction-report',
+             'prepend-title' => '<i class="fas fa-file" aria-hidden="true"></i>',
+             'title' => '<span>Payment-Transaction-Report</span>',
+         ],
+
         ],
 
 ];

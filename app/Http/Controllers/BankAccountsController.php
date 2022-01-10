@@ -128,7 +128,6 @@ class BankAccountsController extends Controller
                 if ($verify) {
                     # code...
                     $name = $result->data->account_name;
-                    // echo "<script> alert('Account added & is verified with Bank Code');</script>";
 
 
                     if (!empty($name) && !empty($AccountNumber) && !empty($BankCode)) {

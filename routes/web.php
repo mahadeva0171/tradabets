@@ -161,6 +161,8 @@ Route::middleware($middleware)->get('/withdraw-request/update/{withdraw}', 'Tran
 Route::middleware($middleware)->get('/withdraw-request-individual/update/{id}', 'TransactionController@withdrawRequestIndividualUpdate');
 Route::middleware($middleware)->get('/withdraw-request-individual-reject/update/{id}', 'TransactionController@withdrawRequestIndividualRejectUpdate');
 Route::middleware($middleware)->post('/withdraw-request-bulk-reject', 'TransactionController@withdrawRequestBulkRejectUpdate');
+Route::middleware($middleware)->get('/transaction-report', 'TransactionController@paystackPaymentReport');
+
 
     // user profile
 Route::middleware($middleware)->get('users/profile/{user}', 'UserProfileController@show');

@@ -450,52 +450,49 @@ class TransactionController extends Controller
     }
 
 
+    public function paystackPaymentReport(Request $request)
+    {
+        $view_data=[];
+        $user=Auth()->user();
+        if($user->role=='admin') {
+            $filter_arr = [
+                'date_from' => date("Y-m-d", strtotime("last week saturday")),
+                'date_to' => date("Y-m-d", strtotime("tomorrow")),
+                'user' => null,
+                'status' => null,
+            ];
+            if ($request->form) {
+                if ($request->form['user'] != null && $request->form['status'] != null) {
+                    $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
+                    $transaction = Transaction::where('status', $request->form['status'])->whereIn('user_id', $users)
+                        ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+                } else if ($request->form['user'] != null) {
+                    $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
+                    $transaction = Transaction::whereIn('user_id', $users)
+                        ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+                } else if ($request->form['status'] != null) {
+                    $transaction = Transaction::where('status', $request->form['status'])
+                        ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+                } else {
 
-// ***********************  new function for creating payment transaction report for paystack transfers
+                    $transaction = Transaction::whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
+                }
+            } else {
+                $transaction = Transaction::whereBetween('created_at', array($filter_arr['date_from'], $filter_arr['date_to']))->get()->all();
+            }
+            $filter_arr = ($request->form) ? array_merge($filter_arr, $request->form) : $filter_arr;
+            $users = user::select_list()->all();
 
-//     public function paystackPaymentReport(Request $request)
-//     {
-//         $view_data=[];
-//         $user=Auth()->user();
-//         if($user->role=='admin') {
-//             $filter_arr = [
-//                 'date_from' => date("Y-m-d", strtotime("last week saturday")),
-//                 'date_to' => date("Y-m-d", strtotime("tomorrow")),
-//                 'user' => null,
-//                 'status' => null,
-//             ];
-//             if ($request->form) {
-//                 if ($request->form['user'] != null && $request->form['status'] != null) {
-//                     $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
-//                     $transaction = Transaction::where('status', $request->form['status'])->whereIn('user_id', $users)
-//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
-//                 } else if ($request->form['user'] != null) {
-//                     $users = user::where('first_name', 'like', $request->form['user'] . '%')->get()->pluck('id')->toArray();
-//                     $transaction = Transaction::whereIn('user_id', $users)
-//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
-//                 } else if ($request->form['status'] != null) {
-//                     $transaction = Transaction::where('status', $request->form['status'])
-//                         ->whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
-//                 } else {
+            // $balance= Balance::where('user_id',$user->id)->get()->all();
 
-//                     $transaction = Transaction::whereBetween('created_at', array($request->form['date_from'], $request->form['date_to']))->get()->all();
-//                 }
-//             } else {
-//                 $transaction = Transaction::whereBetween('created_at', array($filter_arr['date_from'], $filter_arr['date_to']))->get()->all();
-//             }
-//             $filter_arr = ($request->form) ? array_merge($filter_arr, $request->form) : $filter_arr;
-//             $users = user::select_list()->all();
+            $view_data = ['transaction' => $transaction, 'users' => $users, 'filter_arr' => $filter_arr];
 
-//             // $balance= Balance::where('user_id',$user->id)->get()->all();
-
-//             $view_data = ['transaction' => $transaction, 'users' => $users, 'filter_arr' => $filter_arr];
-
-//             return view('admin-views.transaction.admin-transaction-list', $view_data);
-//         }
-//         else{
-//             return view('_security.restricted-area.show');
-//         }
-//     }
+            return view('admin-views.transaction.payment-transaction-report', $view_data);
+        }
+        else{
+            return view('_security.restricted-area.show');
+        }
+    }
 
 
 }

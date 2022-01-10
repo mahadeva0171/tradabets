@@ -42,17 +42,7 @@
                     </tbody>
             </div>
         </div>
-        <!-- <footer class="card-footer">
-          <div class="row">
-        <div class="col-md-6">
-                <a href="/forms/area" class="btn btn-default">Cancel</a>
-        </div>
-        <div class="col-md-6 text-right">
-                <a href="#" class="btn btn-primary" id="txtEdit">Add</a>
-        </div>
-    </div>
 
-        </footer> -->
     </section>
 
 @endsection
