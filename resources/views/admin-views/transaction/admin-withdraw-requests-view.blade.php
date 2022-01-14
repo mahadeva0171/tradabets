@@ -13,6 +13,7 @@
                 ])
 
         </header>
+        
         <div class="card-body">
 
             {{--@include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])--}}

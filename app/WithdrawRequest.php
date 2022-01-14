@@ -10,7 +10,6 @@ class WithdrawRequest extends Model
     protected $fillable = ['user_id','amount','status','recipient_code'];
     protected $primaryKey = 'id';
 
-
     public function user()
     {
         //return $this->belongsTo('Model', 'foreign_key', 'other_key');

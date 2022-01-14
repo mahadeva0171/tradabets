@@ -23,7 +23,7 @@ class CreateUserBankAccountsTable extends Migration
             $table->string('BVN_Number');
             $table->string('Active_status')->nullable();
             $table->string('bank_code');
-            $table->string('recipient_code')->nullable();
+            $table->string('recipient_code')->nullable();   
             $table->string('num_type')->nullable();
 
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');

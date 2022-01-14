@@ -8,7 +8,8 @@
 
         <div class="card-body">
 
-            <div class="col-lg-12 row">
+          <hr>
+            <div class="col-lg-12">
 
                 <div class="col-lg-6">
 
@@ -23,14 +24,7 @@
                                             'class' => 'form-control form-control-sm','id'=>'endDate_id'
                                         ]) }}
                 </div>
-
                 <div class="col-lg-6">
-                    {{--{{ Form::select('', ['' => 'All'] + $users,$filter_arr['user'],['class' => 'form-control']) }}--}}
-                    {{--{{ Form::select_md6('User:', 'form[user]',['' => 'All'] + $users, $filter_arr['user']) }}--}}
-                    {{ Form::text_md6('User:', 'form[user]',$filter_arr['user']) }}
-
-                    {{ Form::select_md6('Status:', 'form[status]',config('custom-form.transaction-type-arr'), $filter_arr['status']) }}
-
                     <div class="text-right p-1">
                         {{ Form::submit('Filter', ['class' => 'btn btn-sm btn-primary']) }}
                     </div>
@@ -38,36 +32,31 @@
 
                 {!! Form::close() !!}
 
-            </div>
-
-        <hr>
-
-            <div class="col-lg-12">
                 <table class="table table-responsive-lg table-bordered table-striped mb-0" id="datatable-default">
                     <thead>
-                    <th class="is-status">Name</th>
-                    <th class="is-status">Opening Balance</th>
-                    <th class="is-status">Amount</th>
-                    <th class="is-status">Status</th>
-                    <th class="is-status">Closing Balance</th>
-                    <th class="is-status">Date</th>
+                        <th class="is-status">Date</th>
+                        <th class="is-status">User ID</th>
+                        <th class="is-status">Amount</th>
+                        <th class="is-status">Status</th>
+                        <th class="is-status">Transaction Reference</th>
+                        <th class="is-status">Recipient Code</th>
+                        <th class="is-status">Transaction Code</th>
                     </thead>
                     <tbody>
-<!--                     @foreach($transaction as $row)
-                        <tr>
-                            <td>{{$row->user->first_name}} {{$row->user->last_name}}</td>
-                            <td>{{$row->opening_balance}}</td>
-                              @if($row->status!='withdraw')
-                        <td class='deposit-amount'>+{{$row->amount}}</td>
-                        @else
-                         <td class='withdraw-amount'>-{{$row->amount}}</td>
-                         @endif
-                            <td>{{$row->status_description}}</td>
-                            <td>{{$row->closing_balance}}</td>
-                            <td>{{$row->created_at}}</td>
-                        </tr>
-                    @endforeach -->
+                        @foreach($payment as $row)
+                            <tr>
+                                <td>{{$row->payment_at}}</td>
+                                <td>{{$row->user_id}}</td>
+                                <td>{{$row->amount}}</td>
+                                <td>{{$row->status}}</td>
+                                <td>{{$row->transaction_reference}}</td>
+                                <td>{{$row->recipient_code}}</td>
+                                <td>{{$row->transaction_code}}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
+                </table>  
+
             </div>
         </div>
 

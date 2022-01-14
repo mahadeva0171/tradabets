@@ -4,9 +4,14 @@
 
 @section('main-content')
 </br>
+<div id="message-area">
     @if (session('transfer-success'))
         <div class="alert alert-success">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('transfer-success') }}
+        </div>
+    @elseif (session('success'))
+        <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('success') }}
         </div>
     @elseif (session('error1'))
         <div class="alert alert-danger">
@@ -25,7 +30,7 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('error4') }}
         </div>        
     @endif
-    
+</div>
     <section class="card">
 
         <div class="card-body">

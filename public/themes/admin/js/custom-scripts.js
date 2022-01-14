@@ -700,7 +700,15 @@ $(document).ready(function(){
                 url:'/bulkTransfer',
                 data:{ data : selected_requests },
                 success:function(data){
-                    // console.log(data);
+                    var responseJSON = JSON.parse(data);
+                    if (responseJSON.status === 'success') {
+                        $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                    }
+                    else {
+                        $('#message-area').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                    }
+                    console.log(responseJSON);
+
                 },
                 error: function(e){
                     //alert(e.error);
@@ -709,7 +717,6 @@ $(document).ready(function(){
     }
 
     function RejectSelected() {
-
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
         for (var checkbox of checkboxes) {
@@ -734,7 +741,6 @@ $(document).ready(function(){
                     //alert(e.error);
                 }
             });
-
     }
 
     function errorBulkTransfer() {
