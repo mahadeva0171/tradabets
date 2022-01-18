@@ -232,61 +232,61 @@
                                 </div>
                             </div>
                         </fieldset>
-                            <fieldset id="second-page">
+                        <fieldset id="second-page">
 
-                               {{-- <div class="form-group mb-0">
-                                    <div class="row">
-                                        <div class="col-sm-10 mb-3">
-                                            <label>Country</label>
-                                            {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}<span></span>
-                                        </div>
-                                      --}}{{--  <div class="col-sm-2 mb-3">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" id="province_fetchID" title="Click here to select the province."><i class="fa fa-map-pin"></i></button>
-                                        </div>--}}{{--
-                                    </div>
-                                </div>--}}
-                                <div class="form-group mb-3">
-                                    <label>Phone</label>
-                                    <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }} -->
-                                        
-                                    <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }} -->
-                                    {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }}
-                                    <span id="phone"></span>
-                                </div>
-                                <div class="form-group mb-3">
-                                    <label>Country</label>
-                                    {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}
-                                </div>
-
-
-                                <div class="form-group mb-3">
-                                    <label>State</label>
-                                    {{ Form::text('state', old('country'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
-                                </div>
-
-                                <div class="form-group mb-3">
-                                    <label>City</label>
-                                    {{ Form::text('city', old('city'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
-                                </div>
-
-
-                                <div class="form-group mb-3">
-                                    <label>Promo Code</label>
-                                    {{ Form::text('promo_code', old('promo_code'), ['class' => 'form-control']) }}
-                                </div>
-
+                           {{-- <div class="form-group mb-0">
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <button class="btn btn-primary mt-2" onclick="fieldsetToggleNew()">Previous</button>
+                                    <div class="col-sm-10 mb-3">
+                                        <label>Country</label>
+                                        {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}<span></span>
                                     </div>
-                                    <div class="col-sm-4">
-
-                                    </div>
-                                    <div class="col-sm-4 text-right">
-                                        <button type="submit"  class="btn btn-primary mt-2">Register</button>
-                                    </div>
+                                  --}}{{--  <div class="col-sm-2 mb-3">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" id="province_fetchID" title="Click here to select the province."><i class="fa fa-map-pin"></i></button>
+                                    </div>--}}{{--
                                 </div>
-                            </fieldset>
+                            </div>--}}
+                            <div class="form-group mb-3">
+                                <label>Phone</label>
+                                <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }} -->
+                                    
+                                <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }} -->
+                                {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true, 'onfocusout' => 'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }}
+                                <span id="phone"></span>
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Country</label>
+                                {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}
+                            </div>
+
+
+                            <div class="form-group mb-3">
+                                <label>State</label>
+                                {{ Form::text('state', old('country'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label>City</label>
+                                {{ Form::text('city', old('city'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
+                            </div>
+
+
+                            <div class="form-group mb-3">
+                                <label>Promo Code</label>
+                                {{ Form::text('promo_code', old('promo_code'), ['class' => 'form-control']) }}
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <button class="btn btn-primary mt-2" onclick="fieldsetToggleNew()">Previous</button>
+                                </div>
+                                <div class="col-sm-4">
+
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <button type="submit"  class="btn btn-primary mt-2">Register</button>
+                                </div>
+                            </div>
+                        </fieldset>
 
                            {{-- <span class="mt-3 mb-3 line-thru text-center text-uppercase">
                             <span>or</span>

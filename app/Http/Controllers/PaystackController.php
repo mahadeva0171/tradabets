@@ -160,7 +160,8 @@ class PaystackController extends Controller
                         return redirect('/withdraw-requests')->with('error1', 'Transfer initiated details could not be stored in the database');
                     }
                     else {
-                        return redirect('/withdraw-requests');
+                        // return redirect('/withdraw-requests');
+                        dd($result);
                     }
               }
 
@@ -212,12 +213,6 @@ class PaystackController extends Controller
 
           $finalize = json_decode($result);
           $status = $finalize->status;
-          $message = $finalize->data->status;
-          $reference = $finalize->data->reference;
-          $amount = $finalize->data->amount;
-          $reason = $finalize->data->reason;
-          $transfer_code = $finalize->data->transfer_code;
-          $createdAt = $finalize->data->createdAt;
 
           if ($status) {
 
@@ -243,109 +238,74 @@ class PaystackController extends Controller
 
                             $collection->push((object)[
                                 'amount' => $individualItem->amount,
-                                'recipient_code' => $individualItem->recipient_code,
+                                'reason' => "Transfer for Withdrawal request",
+                                'recipient_code' => $individualItem->recipient_code
                             ]);
         }
 
-          $url = $this->baseUrl . "/transfer/bulk";
+        // $url = $this->baseUrl . "/transfer/bulk";
 
-          $fields = [
-            // "currency": "NGN",
-            // "source": "balance",
-            // "transfers" => $collection
-          ];
-          //   // echo $fields;
+        $fields = [
+            "currency" => "NGN",
+            "source" => "balance",
+            "transfers" => $collection
+        ];
 
-          // $fields_string = http_build_query($fields);
+        $newFields = json_encode($fields);
 
+        // $fields_string = http_build_query($newFields);
 
-
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://api.paystack.co//transfer/bulk/',
-  CURLOPT_RETURNTRANSFER => true,
-  CURLOPT_ENCODING => '',
-  CURLOPT_MAXREDIRS => 10,
-  CURLOPT_TIMEOUT => 0,
-  CURLOPT_FOLLOWLOCATION => true,
-  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-  CURLOPT_CUSTOMREQUEST => 'POST',
-  CURLOPT_POSTFIELDS =>'{
-    "currency": "NGN",
-    "source": "balance",
-    "transfers": [
-        {
-            "amount": 5,
-            "recipient": "RCP_syjftpyh08uj1i0"
-        },
-        {
-            "amount": 5,
-            "recipient": "RCP_syjftpyh08uj1i0"
-        }
-    ]
-}
-',
-  CURLOPT_HTTPHEADER => array(
-    'Authorization: Bearer sk_test_0f483e7cb1cdec063fc003adc809354f0f6e39d1',
-    'Content-Type: application/json'
-  ),
-));
-
-$response = curl_exec($curl);
-
-// curl_close($curl);
-// echo $response;
-
-
-          // $finalize = json_decode($response); 
-          // $status = $finalize->data->amount;
-
-
-// echo $responseJSON;
-          // dd($finalize);
-
-
-        //   //open connection
-        //   $ch = curl_init();
+        $curl = curl_init();
           
-        //   //set the url, number of POST vars, POST data
-        //   curl_setopt($ch,CURLOPT_URL, $url);
-        //   curl_setopt($ch,CURLOPT_POST, true);
-        //   curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-        //   curl_setopt($ch, CURLOPT_HTTPHEADER,  $this->authBearer);
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => 'https://api.paystack.co//transfer/bulk/',
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => '',
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => 'POST',
+          CURLOPT_POSTFIELDS => $newFields,
+          CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer sk_test_0f483e7cb1cdec063fc003adc809354f0f6e39d1',
+            'Content-Type: application/json'
+          ),
+        ));
+
+          //open connection
+          // $ch = curl_init();
           
-        //   //So that curl_exec returns the contents of the cURL; rather than echoing it
-        //   curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+          // //set the url, number of POST vars, POST data
+          // curl_setopt($ch,CURLOPT_URL, $url);
+          // curl_setopt($ch,CURLOPT_POST, true);
+          // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+          // curl_setopt($ch, CURLOPT_HTTPHEADER,  $this->authBearer);
           
-        //   //execute post
-        //   $result = curl_exec($ch);
-        //   // echo $result;
- 
-          $finalize = json_decode($response);
+          // //So that curl_exec returns the contents of the cURL; rather than echoing it
+          // curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+
+        $result = curl_exec($curl);
+        // $result = curl_exec($ch);
+        echo $result;
+
+          $finalize = json_decode($result);
           $status = $finalize->status;
-          // $message = $finalize->data->status;
-          // $reference = $finalize->data->reference;
-          // $amount = $finalize->data->amount;
-          // $reason = $finalize->data->reason;
-          // $transfer_code = $finalize->data->transfer_code;
-          // $createdAt = $finalize->data->createdAt;
 
           if ($status) {
-
-            echo "{\"status\" : \"success\",
-            \"message\" : \"Transfer Success\"
-            }";
-
+            // echo "{\"status\" : \"success\",
+            // \"message\" : \"Transfer Success\"
+            // }";
+            echo "<script> alert('Success: Transfer success'); </script>";
           }
           else {
-            echo "{\"status\" : \"error\",
-            \"message\" : \"Transfer could not be finalized\"
-        }";
+            //     echo "{\"status\" : \"error\",
+            //     \"message\" : \"Transfer could not be finalized\"
+            // }";
+            // echo "<script> alert('error: Transfer failed'); </script>";
+            return $newFields;
           }
 
-          // return $finalize;
-        // echo $collection;
     }
 }
 

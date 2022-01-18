@@ -195,6 +195,7 @@ function onlyCharacters(e, t) {
         alert(err.Description);
     }
 }
+
 function fieldsetToggleNew()
 {
     if($("#first-page").is(":visible")){
@@ -224,6 +225,7 @@ function fieldsetToggleNew()
     }
 
 }
+
 function emailMessageClear(){
         $('#email-id').text("");
 }
@@ -700,14 +702,15 @@ $(document).ready(function(){
                 url:'/bulkTransfer',
                 data:{ data : selected_requests },
                 success:function(data){
-                    var responseJSON = JSON.parse(data);
-                    if (responseJSON.status === 'success') {
-                        $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
-                    }
-                    else {
-                        $('#message-area').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
-                    }
-                    console.log(responseJSON);
+                    // var responseJSON = JSON.parse(data);
+                    // if (responseJSON.status === 'success') {
+                    //     $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                    // }
+                    // else {
+                    //     $('#message-area').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                    // }
+                    // console.log(responseJSON);
+                    console.log(data);
 
                 },
                 error: function(e){
