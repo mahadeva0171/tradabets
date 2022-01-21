@@ -685,6 +685,8 @@ $(document).ready(function(){
     }
 
     function ApproveSelected() {
+        if (confirm("Are you sure you want to approve the selected Transfers?")) {
+
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
         for (var checkbox of checkboxes) {
@@ -702,23 +704,49 @@ $(document).ready(function(){
                 url:'/bulkTransfer',
                 data:{ data : selected_requests },
                 success:function(data){
-                    // var responseJSON = JSON.parse(data);
-                    // if (responseJSON.status === 'success') {
-                    //     $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
-                    // }
-                    // else {
-                    //     $('#message-area').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
-                    // }
-                    // console.log(responseJSON);
                     console.log(data);
+                    var responseJSON = JSON.parse(data);
+                    if (responseJSON.status === 'success') {
+                        $("#datatable-default input[type='checkbox']:checked:not('.toggleCheckbox')").closest("tr").remove();
+                        $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                        $('div.container-body').fadeOut();
+                        $('div.container-body').load('/withdraw-requests',function(){
+                         $('div.container-body').fadeIn();   
+                        });
+
+
+                    }
+                    else {
+                        $('#message-area').append('<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
+                    }
 
                 },
                 error: function(e){
-                    //alert(e.error);
+                    alert(e.error);
                 }
             });
+        }
+        else{
+            return;
+        }
     }
 
+    function ApproveRow(path) {
+        if (confirm("Are you sure you want to approve the selected Transfers?")) {
+        location.href = path;
+        }
+        else{
+            return;
+        }
+    }
+    function RejectRow(path) {
+        if (confirm("Are you sure you want to reject the selected Transfers?")) {
+        location.href = path;
+        }
+        else{
+            return;
+        }
+    }
     function RejectSelected() {
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
@@ -750,3 +778,5 @@ $(document).ready(function(){
             $('.error-message').text('Transfer could not be finalized');
             $('.error-message').css('color','red');
     }
+
+

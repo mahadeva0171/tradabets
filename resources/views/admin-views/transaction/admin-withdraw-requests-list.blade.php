@@ -43,7 +43,7 @@
               <form id="withdraw-request-lists-form" method="POST">
                 <table class="table table-responsive-lg table-bordered table-striped mb-0 withdraw_table" id="datatable-default" >
                     <thead>
-                            <th class="bulkCheckbox nummer"><input type="checkbox" name="checkProducts" onclick="checkAll('#datatable-default', this)" />Select All</th>
+                            <th class="bulkCheckbox nummer"><input type="checkbox" class="toggleCheckbox" name="checkProducts" onclick="checkAll('#datatable-default', this)" />Select All</th>
                             <th class="is-status">Name</th>
                             <th class="is-status">Amount</th>
                             <th class="is-status">Status</th>
@@ -65,8 +65,8 @@
                                 <td><a href="/withdraw-request/view/{{$row->id}}">View Details</a></td>
 
                                 <td>
-                                <div class="approve_reject"><input class="btn btn-primary" style="font-size: smaller;" type="button" value="Approve" onclick="location.href='/initiate_transaction/{{$row->id}}'">
-                                     <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject" onclick="location.href='/withdraw-request-individual-reject/update/{{$row->id}}'">
+                                <div class="approve_reject"><input class="btn btn-primary" style="font-size: smaller;" type="button" value="Approve" onclick="ApproveRow('/initiate_transaction/{{$row->id}}');">
+                                     <input class="btn btn-danger" style="font-size: smaller;" type="button" value="Reject" onclick="RejectRow('/withdraw-request-individual-reject/update/{{$row->id}}');">
                                 </div>
                                 </td>
                             </tr>

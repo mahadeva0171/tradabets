@@ -111,6 +111,7 @@ class User extends Authenticatable
 
         return $keyed;
     }
+
     /**
      *  Send e-mail verification notification.
      */
@@ -118,6 +119,7 @@ class User extends Authenticatable
     {
         $this->notify(new VerifyEmail());
     }
+    
     /**
      *  Send password reset notification.
      */
@@ -130,4 +132,5 @@ class User extends Authenticatable
     {
         return 'id';
     }
+
 }

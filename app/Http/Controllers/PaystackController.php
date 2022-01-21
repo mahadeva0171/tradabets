@@ -77,15 +77,23 @@ class PaystackController extends Controller
             ->select('user_id','amount')
             ->where('id', $id)
             ->first();
-
-        // $recipient_code = DB::table('user_bank_accounts')
-        //     ->select('recipient_code')
-        //     ->where(['user_id', $user->user_id],['Active_status',"Active"]);
-
-        // $recipient_code = DB::table('user_bank_accounts')
-        //     ->where('user_id', $user->user_id)
-        //     ->where('Active_status',"Active")
-        //     ->select('recipient_code');
+        $user_data = DB::table('user')
+            ->select('first_name','last_name','email','phone')
+            ->where('id', $user->user_id)
+            ->first();
+        
+        if ( $user_data->email != null && $user_data->phone != null) {
+            $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->email .")" ."(" .$user_data->phone .")" ;
+        }
+        else if ($user_data->email != null) {
+            $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->email .")";
+        }
+        else if ($user_data->phone != null) {
+            $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->phone .")";
+        }
+        else {
+            $username = $user_data->first_name ." " .$user_data->last_name;
+        }
 
         $recipient_code = DB::table('user_bank_accounts')
             ->where('user_id', $user->user_id)
@@ -139,9 +147,8 @@ class PaystackController extends Controller
                   $createdAt = $initiate->data->createdAt;
                   $transaction_status = $initiate->data->status;
 
-                    // $values = array('transaction_reference' => $reference, 'amount' => $amount, 'status' => $transaction_status, 'transaction_code' => $transfer_code, 'payment_at' => $createdAt, 'user_id' => $user->user_id, 'recipient_code' => $recipient_code);
 
-                    // $query =  DB::table('payment_transaction_report')->insert($values);
+//**** need to add withdraw_request_id to report
 
                     $query = PaymentReport::create(['transaction_reference'=>$reference,
                             'amount'=> $amount,
@@ -150,6 +157,10 @@ class PaystackController extends Controller
                             'payment_at'=> $createdAt,
                             'user_id'=>$user->user_id,
                             'recipient_code'=>$recipient_code,
+                            'username'=> $username,
+                            'user_email'=> $user_data->email,
+                            'user_phone'=> $user_data->phone,
+
                         ]);
 
                     $update = DB::table('withdraw_requests')
@@ -160,8 +171,8 @@ class PaystackController extends Controller
                         return redirect('/withdraw-requests')->with('error1', 'Transfer initiated details could not be stored in the database');
                     }
                     else {
-                        // return redirect('/withdraw-requests');
-                        dd($result);
+                        return redirect('/withdraw-requests')->with('transfer-success', 'Transfer Success!');
+
                     }
               }
 
@@ -180,49 +191,6 @@ class PaystackController extends Controller
              }
     }
 
-    public function finalizeTransfer(Request $request)
-    {
-
-        $transfer_code = session()->get('transfer_code');
-        $recipient_code = session()->get('recipient_code');
-        $otp = $request->input('otp');
-
-        $url = $this->baseUrl . "/transfer/finalize_transfer";
-        $fields = [
-                "transfer_code" => $transfer_code,
-                "otp" => $otp,
-              ];
-        $fields_string = http_build_query($fields);
- 
-          //open connection
-          $ch = curl_init();
-          
-          //set the url, number of POST vars, POST data
-          curl_setopt($ch,CURLOPT_URL, $url);
-          curl_setopt($ch,CURLOPT_POST, true);
-          curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, $this->authBearer);
-          
-          //So that curl_exec returns the contents of the cURL; rather than echoing it
-          curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
-          
-          //execute post
-          $result = curl_exec($ch);
-          // echo $result;
-          // var_dump($result);
-
-          $finalize = json_decode($result);
-          $status = $finalize->status;
-
-          if ($status) {
-
-            return redirect('/withdraw-requests')->with('transfer-success', 'Transfer Success!');
-
-          }
-          else
-            return redirect('/withdraw-requests')->with('error3', 'Transfer could not be finalized.');
-    }
-
     public function bulkTransfer(Request $request)
     {
 
@@ -239,7 +207,7 @@ class PaystackController extends Controller
                             $collection->push((object)[
                                 'amount' => $individualItem->amount,
                                 'reason' => "Transfer for Withdrawal request",
-                                'recipient_code' => $individualItem->recipient_code
+                                'recipient' => $individualItem->recipient_code
                             ]);
         }
 
@@ -251,7 +219,7 @@ class PaystackController extends Controller
             "transfers" => $collection
         ];
 
-        $newFields = json_encode($fields);
+        $newFields = (json_encode($fields));
 
         // $fields_string = http_build_query($newFields);
 
@@ -273,40 +241,79 @@ class PaystackController extends Controller
           ),
         ));
 
-          //open connection
-          // $ch = curl_init();
-          
-          // //set the url, number of POST vars, POST data
-          // curl_setopt($ch,CURLOPT_URL, $url);
-          // curl_setopt($ch,CURLOPT_POST, true);
-          // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
-          // curl_setopt($ch, CURLOPT_HTTPHEADER,  $this->authBearer);
-          
-          // //So that curl_exec returns the contents of the cURL; rather than echoing it
-          // curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
-
         $result = curl_exec($curl);
         // $result = curl_exec($ch);
-        echo $result;
+        // echo $result;
 
           $finalize = json_decode($result);
           $status = $finalize->status;
+          $request_array = $finalize->data;
 
           if ($status) {
-            // echo "{\"status\" : \"success\",
-            // \"message\" : \"Transfer Success\"
-            // }";
-            echo "<script> alert('Success: Transfer success'); </script>";
+
+            foreach ($request_array as $elemt) {
+
+                $indl_recipient = $elemt->recipient;
+                $indl_amount = $elemt->amount;
+                $indl_transfer_code = $elemt->transfer_code;
+                $indl_status = $elemt->status;
+                $indl_payment_at = now();
+
+                $user = DB::table('withdraw_requests')
+                    ->select('user_id')
+                    ->where('recipient_code', $indl_recipient)
+                    ->first();
+
+                $user_data = DB::table('user')
+                    ->select('first_name','last_name','email','phone')
+                    ->where('id', $user->user_id)
+                    ->first();
+                
+                if ( $user_data->email != null && $user_data->phone != null) {
+                    $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->email .")" ."(" .$user_data->phone .")" ;
+                }
+                else if ($user_data->email != null) {
+                    $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->email .")";
+                }
+                else if ($user_data->phone != null) {
+                    $username = $user_data->first_name ." " .$user_data->last_name ."(" .$user_data->phone .")";
+                }
+                else {
+                    $username = $user_data->first_name ." " .$user_data->last_name;
+                }
+
+                    $query = PaymentReport::create(['transaction_reference'=> "Bulk Transfered",
+                            'amount'=> $indl_amount,
+                            'status'=> $indl_status,
+                            'transaction_code'=> $indl_transfer_code,
+                            'payment_at'=> $indl_payment_at,
+                            'user_id'=>$user->user_id,
+                            'recipient_code'=>$indl_recipient,
+                            'username'=> $username,
+                            'user_email'=> $user_data->email,
+                            'user_phone'=> $user_data->phone,
+
+                    ]);  
+            }
+
+            foreach($selected_requests as $item) {
+                    $update = DB::table('withdraw_requests')
+                        ->where('id', $item)
+                        ->update(['status' => "approved"]);
+            }
+
+            echo "{\"status\" : \"success\",
+            \"message\" : \"Transfer Success\",
+            \"data\" : ".$result ."
+            }";
           }
           else {
-            //     echo "{\"status\" : \"error\",
-            //     \"message\" : \"Transfer could not be finalized\"
-            // }";
-            // echo "<script> alert('error: Transfer failed'); </script>";
-            return $newFields;
+                echo "{\"status\" : \"error\",
+                \"message\" : \"Transfer could not be finalized\",
+               \"data\" : ".$result ."
+            }";
           }
 
     }
 }
-
 

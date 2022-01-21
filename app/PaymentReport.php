@@ -8,7 +8,7 @@ class PaymentReport extends Model
 {
     //
     protected $table = 'payment_transaction_report';
-    protected $fillable = ['user_id','amount','status','transaction_reference','recipient_code','transaction_code','payment_at'];
+    protected $fillable = ['user_id','amount','status','transaction_reference','recipient_code','transaction_code','payment_at','username','user_email','user_phone'];
     protected $primaryKey = 'id';
 
     public function user()

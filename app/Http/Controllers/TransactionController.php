@@ -461,6 +461,7 @@ class TransactionController extends Controller
 
             // $payment = DB::table('payment_transaction_report')->get()->all();
             $payment = PaymentReport::all();
+            // $payment = PaymentReport::select_list()->all();
             
             // $date = '2022-01-07 13:03:48';
             // $id = 5;
@@ -473,7 +474,7 @@ class TransactionController extends Controller
 
             // $view_data = ['date1' => $date, 'user_id' => $id, 'amount' => $amt, 'status' => $status, 'reference' => $ref, 'code' => $code, ];
 
-// dd($view_data);
+        // dd($view_data);
             return view('admin-views.transaction.payment-transaction-report', $view_data);
         }
         else{

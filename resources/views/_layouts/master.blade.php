@@ -66,8 +66,7 @@
                 @endif
             @endif
 
-		@yield('main-content')
-
+        @yield('main-content')
 
 	@include('_includes.body-footer')
 

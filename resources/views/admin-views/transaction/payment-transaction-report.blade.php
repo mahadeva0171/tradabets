@@ -8,7 +8,6 @@
 
         <div class="card-body">
 
-          <hr>
             <div class="col-lg-12">
 
                 <div class="col-lg-6">
@@ -31,11 +30,14 @@
                 </div>
 
                 {!! Form::close() !!}
+          <hr>
 
                 <table class="table table-responsive-lg table-bordered table-striped mb-0" id="datatable-default">
                     <thead>
                         <th class="is-status">Date</th>
                         <th class="is-status">User ID</th>
+                        <th class="is-status">User Name</th>
+
                         <th class="is-status">Amount</th>
                         <th class="is-status">Status</th>
                         <th class="is-status">Transaction Reference</th>
@@ -47,6 +49,7 @@
                             <tr>
                                 <td>{{$row->payment_at}}</td>
                                 <td>{{$row->user_id}}</td>
+                                <td>{{$row->username}}</td>
                                 <td>{{$row->amount}}</td>
                                 <td>{{$row->status}}</td>
                                 <td>{{$row->transaction_reference}}</td>
