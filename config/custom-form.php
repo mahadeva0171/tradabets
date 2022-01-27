@@ -13,7 +13,9 @@ return [
     'kyc-type-arr' => [
         ''=>'Select..',
         'pancard' => 'Pan Card',
-        'driving-license' => 'Driving License'
+        'driving-license' => 'Driving License',
+        'voters-card' => 'Voters Card',
+        'national-identification-number' => 'National Identification Number (NIN)',
     ],
     'kyc-status-approve-arr'=>[
         ''=>'Select..',

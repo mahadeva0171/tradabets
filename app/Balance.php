@@ -10,7 +10,6 @@ class Balance extends Model
     protected $fillable = ['user_id','balance'];
     protected $primaryKey = 'id';
 
-
     public function user()
     {
         //return $this->belongsTo('Model', 'foreign_key', 'other_key');

@@ -3,6 +3,7 @@
 @section('main-title', 'Bank Accounts')
 
 @section('main-content')
+</br>
     @if (session('status'))
         <div class="alert alert-success">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('status') }}
@@ -28,7 +29,7 @@
                     <th class="is-status">Account Number</th>
                     <th class="is-status">Bank Name</th>
                     <th class="is-status">Bank Code</th>
-                    <th class="is-status">BVN Number</th>
+                    <!-- <th class="is-status">BVN Number</th> -->
                     <th class="is-status">Active</th>
                     </thead>
                     <tbody>
@@ -38,7 +39,7 @@
                                 <td>{{$row->account_number}}</td>
                                 <td>{{$row->bank_name}}</td>
                                 <td>{{$row->bank_code}}</td>
-                                <td>{{$row->BVN_Number}}</td>
+                                <!-- <td>{{$row->BVN_Number}}</td> -->
                                 <td>{{$row->Active_status}}</td>
 
                             </tr>

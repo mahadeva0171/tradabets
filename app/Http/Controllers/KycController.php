@@ -9,6 +9,7 @@ use finfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Image;
+use Exception;
 
 
 class KycController extends Controller
@@ -39,14 +40,15 @@ class KycController extends Controller
         if($request->hasfile('content_file')){
             //$file = $request->file('content_file');
             $image_file = $request->content_file;
-
-            $image = Image::make($image_file);
+        try {
+          $image = Image::make($image_file);
 
             Response::make($image->encode('jpeg'));
 
             // Get the contents of the file
             //$contents = $file->openFile()->fread($file->getSize());
             //var_dump($contents);
+
             kycDocument::create(['user_id'=>$user->id,
                 'name'=>$request->form['name'],
                 'id_number'=>$request->form['id_number'],
@@ -60,6 +62,33 @@ class KycController extends Controller
                 'body'=>'KYC has been updated by the user '.$user->first_name .' '.$user->last_name,
             ]);
             $message="Document uploaded successfully";
+
+        } catch (\Exception $e) {
+                    return redirect('/kyc-upload-form')->with('error', 'Error uploading file!');
+        }
+
+
+            // $image = Image::make($image_file);
+
+            // Response::make($image->encode('jpeg'));
+
+            // // Get the contents of the file
+            // //$contents = $file->openFile()->fread($file->getSize());
+            // //var_dump($contents);
+
+            // kycDocument::create(['user_id'=>$user->id,
+            //     'name'=>$request->form['name'],
+            //     'id_number'=>$request->form['id_number'],
+            //     'document_type'=>$request->form['document_type'],
+            //     'image_data' =>$image,
+            // ]);
+            // $super_admin = user::where('role', 'admin')->first()->id;
+            // InboxNotification::create([
+            //     'receiver'=>$super_admin,
+            //     'subject'=>'Regarding KYC upload',
+            //     'body'=>'KYC has been updated by the user '.$user->first_name .' '.$user->last_name,
+            // ]);
+            // $message="Document uploaded successfully";
         }
         else{
             $message="Please try again";
@@ -69,6 +98,7 @@ class KycController extends Controller
 
         return redirect('/document-upload');
     }
+
     public function docList(Request $request)
     {
         $user=Auth()->user();
@@ -81,6 +111,7 @@ class KycController extends Controller
             return view('_security.restricted-area.show');
         }
     }
+
     public function viewDoc(Request $request,kycDocument $document)
     {
         $user=Auth()->user();
@@ -92,6 +123,7 @@ class KycController extends Controller
             return view('_security.restricted-action.show');
         }
     }
+
     public function update(Request $request,kycDocument $document)
     {
         $form=[];
@@ -122,6 +154,7 @@ class KycController extends Controller
             return view('_security.restricted-action.show');
         }
     }
+
     public function show(Request $request, $id){
       $view_data=[];
       $user=auth()->user();

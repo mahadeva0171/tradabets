@@ -685,7 +685,6 @@ $(document).ready(function(){
     }
 
     function ApproveSelected() {
-        if (confirm("Are you sure you want to approve the selected Transfers?")) {
 
         var checkboxes = document.getElementsByName('select_request');
         var selected_requests = [];
@@ -694,6 +693,8 @@ $(document).ready(function(){
                 selected_requests.push(checkbox.value);
             }
         }
+        if (confirm("Are you sure you want to approve the selected Transfers?")) {
+
         $.ajaxSetup({
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

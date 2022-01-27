@@ -9,7 +9,7 @@ class UserBankDetails extends Model
     
     protected $table = 'user_bank_accounts';
 
-    protected $fillable = ['user_id','account_name','account_number','bank_name','bank_code','BVN_Number','Active_status','recipient_code','num_type'];
+    protected $fillable = ['user_id','account_name','account_number','bank_name','bank_code','Active_status','recipient_code','num_type'];
 
     protected $primaryKey = 'id';
 

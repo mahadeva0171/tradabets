@@ -42,7 +42,6 @@
                 <a href="{{ url('home') }}" class="btn btn-primary" id="txtEdit">Add</a>
             </div>
         </div>
-
         </footer>
     </section>
 

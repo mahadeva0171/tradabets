@@ -24,7 +24,7 @@
 
                     {{ Form::text_md6('Bank Code:', 'form[bank_code]', old('form[bank_code]'), ['required' => true]) }}
 
-                    {{ Form::text_md6('BVN Number:', 'form[bvn_number]', old('form[bvn_number]'), ['required' => true]) }}
+                    <!-- {{ Form::text_md6('BVN Number:', 'form[bvn_number]', old('form[bvn_number]'), ['required' => true]) }} -->
 
                 </div>
 

@@ -183,7 +183,7 @@ class BankAccountsController extends Controller
                                     'account_number'=> $Acct_Numb,
                                     'bank_name'=> $Bank_Name,
                                     'bank_code'=> $Bank_Code,
-                                    'BVN_Number'=>$request->form['bvn_number'],
+                                    // 'BVN_Number'=>$request->form['bvn_number'],
                                     'Active_status'=>'Active',
                                     'recipient_code'=> $recipient_code,
                                     'num_type'=> $num_type,
