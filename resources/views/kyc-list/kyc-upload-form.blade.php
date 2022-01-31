@@ -13,11 +13,9 @@
 </div>
     {!! Form::open(['url' => '/kyc-upload', 'method'=>'POST', 'class' => 'form-horizontal', 'files'=>true]) !!}
 
-
     <section class="card">
 
         <div class="card-body">
-
 
             {{--   @include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])  --}}
 
@@ -34,17 +32,13 @@
                     <div class="text-right">
                         <p style="color: red;">[Max file size: (JPEG: 100kb, PNG: 500kb)]</p>
                     </div>
-
                 </div>
 
 
-                        {{-- <div class="col-md-12 col-lg-6">
+                {{-- <div class="col-md-12 col-lg-6">
 
-                     <h4>Profile Image</h4>
-
-                         <hr />
-
-
+                <h4>Profile Image</h4>
+                 <hr />
 
                      <div class="row">
                          <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
@@ -54,7 +48,8 @@
                              @endif
 
                          </div>
-                     </div> <!-- /row -->
+                     </div>
+                     <!-- /row -->
 
                  </div>--}}
             </div> <!-- /row -->

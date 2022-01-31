@@ -17,7 +17,7 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('errors') }}
         </div>
     @endif
- 
+
     <section class="card">
     
         <div class="card-body">

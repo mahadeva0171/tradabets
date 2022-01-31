@@ -223,7 +223,6 @@ function fieldsetToggleNew()
         $('#first-page').css('display','block');
         $('#second-page').css('display','none');
     }
-
 }
 
 function emailMessageClear(){
@@ -261,8 +260,8 @@ function userVerify(){
                $("#password").css("color","red");
            }
         });
-
 }
+
 function forgotPasswordURL(){debugger;
     $.ajax({
         type:'get',
@@ -335,10 +334,6 @@ function documentStatus(t){
     }
 }
 
-function approveRejectDocument(t,value){
-
-
-}
 
 $(document).ready(function(){
     $('#second-page').css('display','none');
@@ -382,6 +377,7 @@ $( function() {
     });
 
 } );
+
 function phoneNumberVerify(){
     var userinput = $('.phone').val();
     if($('.phone').val().length<1)

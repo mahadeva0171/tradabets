@@ -148,8 +148,6 @@ class PaystackController extends Controller
                   $transaction_status = $initiate->data->status;
 
 
-//**** need to add withdraw_request_id to report
-
                     $query = PaymentReport::create(['transaction_reference'=>$reference,
                             'amount'=> $amount,
                             'status'=> $transaction_status,
@@ -211,8 +209,6 @@ class PaystackController extends Controller
                             ]);
         }
 
-        // $url = $this->baseUrl . "/transfer/bulk";
-
         $fields = [
             "currency" => "NGN",
             "source" => "balance",
@@ -236,14 +232,12 @@ class PaystackController extends Controller
           CURLOPT_CUSTOMREQUEST => 'POST',
           CURLOPT_POSTFIELDS => $newFields,
           CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer sk_test_0f483e7cb1cdec063fc003adc809354f0f6e39d1',
+            'Authorization: Bearer ' . $this->secretKey,
             'Content-Type: application/json'
           ),
         ));
 
         $result = curl_exec($curl);
-        // $result = curl_exec($ch);
-        // echo $result;
 
           $finalize = json_decode($result);
           $status = $finalize->status;
@@ -312,8 +306,12 @@ class PaystackController extends Controller
                 \"message\" : \"Transfer could not be finalized\",
                \"data\" : ".$result ."
             }";
+
           }
 
     }
 }
+
+
+
 

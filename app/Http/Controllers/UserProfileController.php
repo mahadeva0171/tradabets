@@ -114,4 +114,5 @@ class UserProfileController extends Controller
         return redirect('/users/profile/'.$user->id);
     }
 
+
 }

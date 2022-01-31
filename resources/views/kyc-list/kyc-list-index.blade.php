@@ -39,7 +39,7 @@
                 <a href="#" class="btn btn-default">Cancel</a>
             </div>
             <div class="col-md-6 text-right">
-                <a href="{{ url('home') }}" class="btn btn-primary" id="txtEdit">Add</a>
+                <a href="{{ url('kyc-upload-form') }}" class="btn btn-primary" id="txtEdit">Add</a>
             </div>
         </div>
         </footer>

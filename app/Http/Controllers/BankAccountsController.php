@@ -243,3 +243,77 @@ class BankAccountsController extends Controller
     }
 
 }
+
+
+
+// IDENTITY VERIFICATION WITH BVN MATCH
+
+  // $url = "https://api.paystack.co/bvn/match";
+  // $fields = [
+  //   'bvn' => "xxxxxxxxxxx",
+  //   'account_number' => '0001234567',
+  //   'bank_code' => '058',
+  //   'first_name' => "Jane",
+  //   'last_name' => 'Doe',
+  //   'middle_name' => 'Loren'
+  // ];
+  
+  // $fields_string = http_build_query($fields);
+  
+  // //open connection
+  // $ch = curl_init();
+  
+  // //set the url, number of POST vars, POST data
+  // curl_setopt($ch,CURLOPT_URL, $url);
+  // curl_setopt($ch,CURLOPT_POST, true);
+  // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+  // curl_setopt($ch, CURLOPT_HTTPHEADER, $this->authBearer);
+  
+  // //So that curl_exec returns the contents of the cURL; rather than echoing it
+  // curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+  
+  // //execute post
+  // $result = curl_exec($ch);
+  // echo $result;
+
+  // $info = json_decode($result);
+  // $message = $info->message;
+  // $bvn = $info->data->bvn;
+  // $is_blacklisted = $info->data->is_blacklisted;
+  // $first_name = $info->data->first_name;
+  // $last_name = $info->data->last_name;
+
+        // if ($info->status) {
+
+        //     $query = userBankDetails::create(['user_id'=>$user->id,
+        //             'account_name'=> $recipient_name,
+        //             'account_number'=> $Acct_Numb,
+        //             'bank_name'=> $Bank_Name,
+        //             'bank_code'=> $Bank_Code,
+        //             // 'BVN_Number'=>$request->form['bvn_number'],
+        //             'Active_status'=>'Active',
+        //             'recipient_code'=> $recipient_code,
+        //             'num_type'=> $num_type,
+
+        //         ]);
+        //         session([
+        //             'account_status' => 1
+        //         ]); 
+
+
+        //      if (!$query) {
+        //        // code...
+        //         echo 'There was an error';
+        //      }
+        //      else {
+        //         return redirect('/bank-accounts')->with('status', 'Account added & is verified with Bank Code!');
+        //       exit();
+        //      }
+
+        //    }
+
+        // }
+        // else {
+        //       echo 'There was an error';
+        //  exit();
+        // }

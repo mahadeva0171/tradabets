@@ -17,95 +17,93 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    if(auth::check()){
-        $user=auth()->user();
-        if($user->role!='admin'){
-        $balance= Balance::where('user_id',$user->id)->first()->balance;
-        $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
-        $bank_account=userBankDetails::where([['user_id',$user->id],['Active_status','Active']])->get()->all();
-    
-        if($bank_account!=null)
-        {
-            session([
-                'account_status' => 1
-            ]);
-        }
-        else
-        {
-            session([
-                'account_status' => 0
-            ]); 
-            
-        }
+	if(auth::check()){
+		$user=auth()->user();
+		if($user->role!='admin'){
+		$balance= Balance::where('user_id',$user->id)->first()->balance;
+		$kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
+		$bank_account=userBankDetails::where([['user_id',$user->id],['Active_status','Active']])->get()->all();
+	
+		if($bank_account!=null)
+		{
+			session([
+				'account_status' => 1
+			]);
+		}
+		else
+		{
+			session([
+				'account_status' => 0
+			]); 
+			
+		}
 
-        if($kyc_update!=null)
-        {
-            session([
-            'kyc_status' => 1
-        ]);
-        }
-        else
-        {
-            $kyc_update=KycDocument::where([['user_id',$user->id],['status','pending']])->get()->all();             
-            if($kyc_update!=null)
-                {
-                    session([
-                    'kyc_status' => 2
-                    ]);
-                }
-                else
-                {
-                   session([
-                    'kyc_status' => 0
-                    ]); 
-                }
+		if($kyc_update!=null)
+		{
+			session([
+			'kyc_status' => 1
+		]);
+		}
+		else
+		{
+			$kyc_update=KycDocument::where([['user_id',$user->id],['status','pending']])->get()->all();             
+			if($kyc_update!=null)
+				{
+					session([
+					'kyc_status' => 2
+					]);
+				}
+				else
+				{
+				   session([
+					'kyc_status' => 0
+					]); 
+				}
 
-        }
-        $avail_balance=($balance!=null)? $balance : 0.0;
-        session([
-            'avail_balance' => $avail_balance
-        ]);
+		}
+		$avail_balance=($balance!=null)? $balance : 0.0;
+		session([
+			'avail_balance' => $avail_balance
+		]);
 
-            return view('tradabet-home-page');
-    }
-        else{
-               return redirect('/home');
-        }
+			return view('tradabet-home-page');
+	}
+		else{
+			   return redirect('/home');
+		}
 
-    }
+	}
    return view('tradabet-home-page');
 
 })->name('/');
 Route::get('google', function () {
-    return view('googleAuth');
+	return view('googleAuth');
 });
 Route::get('sports',function(){
-    return view('menu-pages.sports');
+	return view('menu-pages.sports');
 })->name('sports');
 Route::get('casino',function(){
-    return view('menu-pages.casino');
+	return view('menu-pages.casino');
 })->name('casino');
 Route::get('games',function(){
-    return view('menu-pages.games');
+	return view('menu-pages.games');
 })->name('games');
 Route::get('poker',function(){
-    return view('menu-pages.poker');
+	return view('menu-pages.poker');
 })->name('poker');
 Route::get('promotions',function(){
-    return view('menu-pages.promotions');
+	return view('menu-pages.promotions');
 })->name('promotions');
-
-
 
 Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
 Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 Route::get('/complete-registration', 'Auth\RegisterController@completeRegistration');
 Route::post('register', 'Auth\RegisterController@register');
 Route::get('register',function(){
-    return redirect ('/');
+	return redirect ('/');
 })->name('register');
 Route::get('login',function(){
-    return redirect ('/');
+	return redirect ('/');
 })->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::get('login/userVerify','Auth\LoginController@userVerify');
@@ -127,22 +125,19 @@ Route::get('email/resend', 'Auth\VerificationController@resend')->name('verifica
 
 
 Auth::routes(['register'=>false,'login'=>false]);
-/*Route::post('/2faVerify', function () {
-    return redirect(URL()->previous());
-})->name('2faVerify')->middleware(['2fa']);*/
 
 $middleware=['auth','verified'];
 
 Route::middleware($middleware)->get('/home', 'HomeController@index')->name('home');
-    //Bet-list
+	//Bet-list
 Route::middleware($middleware)->get('/betlist', 'BetListController@index');
 Route::middleware($middleware)->get('/betlist-cashout', 'BetListController@betListCashout');
-    //Bonus
+	//Bonus
 Route::middleware($middleware)->get('/active-bonus', 'BonusController@index');
 Route::middleware($middleware)->get('/bonus-transaction-list', 'BonusController@bonusTransactionList');
-    //Rewards
+	//Rewards
 Route::middleware($middleware)->get('/rewards', 'RewardsController@index');
-    //Transaction List
+	//Transaction List
 Route::middleware($middleware)->get('/transaction', 'TransactionController@index');
 Route::middleware($middleware)->get('/deposits', 'TransactionController@deposit');
 Route::middleware($middleware)->get('/deposit-form', 'TransactionController@depositForm');
@@ -164,13 +159,13 @@ Route::middleware($middleware)->post('/withdraw-request-bulk-reject', 'Transacti
 Route::middleware($middleware)->get('/transaction-report', 'TransactionController@paystackPaymentReport');
 
 
-    // user profile
+	// user profile
 Route::middleware($middleware)->get('users/profile/{user}', 'UserProfileController@show');
 Route::middleware($middleware)->get('users/profile/{user}/edit', 'UserProfileController@edit');
 Route::middleware($middleware)->patch('users/profile/{user}', 'UserProfileController@update');
 Route::middleware($middleware)->get('/developers','DevelopersController@index');
 
-    //KYC
+	//KYC
 Route::middleware($middleware)->get('/document-upload', 'KycController@index');
 Route::middleware($middleware)->get('/kyc-upload-form', 'KycController@documentShow');
 Route::middleware($middleware)->post('/kyc-upload', 'KycController@upload');
@@ -179,32 +174,30 @@ Route::middleware($middleware)->get('/kyc-list/view/{document}', 'KycController@
 Route::middleware($middleware)->post('/kyc-list/update/{document}', 'KycController@update');
 Route::middleware($middleware)->get('/document-show/{id}', 'KycController@show');
 
-    //Inbox
+	//Inbox
 /*Route::middleware($middleware)->get('/inbox/mark-all-as-read', 'InboxNotificationController@mark_all_as_read');*/
 Route::middleware($middleware)->get('/inbox/message-view/{notification}', 'InboxNotificationController@mark_all_as_read');
 Route::middleware($middleware)->resource('inbox', 'InboxNotificationController')->parameters([
-        'inbox' => 'inbox_notification'
-    ]);
+		'inbox' => 'inbox_notification'
+	]);
 
-    // Paystack
+	// Paystack
 Route::post('/pay', 'PaymentController@redirectToGateway')->name('pay');
 Route::get('/payment/callback', 'PaymentController@handleGatewayCallback');
 
-    //BankAccounts
+	//BankAccounts
 Route::middleware($middleware)->get('/bank-accounts', 'BankAccountsController@index')->name('bank_account');
 Route::middleware($middleware)->get('/add-bank-account', 'BankAccountsController@addAccount');
 Route::middleware($middleware)->post('/add_account', 'BankAccountsController@add');
 Route::middleware($middleware)->get('/activate-account/{id}', 'BankAccountsController@activateAccount');
 
-    //Paystack transfers
+	//Paystack transfers
 Route::middleware($middleware)->get('/activate-account/{}', 'BankAccountsController@activateAccount');
 Route::middleware($middleware)->get('/initiate_transaction/{id}', 'PaystackController@initiate');
 Route::middleware($middleware)->get('/finalize_transfer', 'PaystackController@finalizeTransfer')->name('otp');
 
 Route::middleware($middleware)->post('/bulkTransfer', 'PaystackController@bulkTransfer');
 
-// Route::middleware($middleware)->get('/disableOTP', 'PaystackController@disableOTP');
-// Route::middleware($middleware)->post('/finalizeOTPdisable', 'PaystackController@finalizeOTPdisable');
 
 
 

@@ -178,9 +178,7 @@
                     <div class="modal-body">
                         <div class="card-body">
 
-
-                            {!! Form::open(['url' => '/register', 'class' => '','name'=>'registration']) !!}
-
+                        {!! Form::open(['url' => '/register', 'class' => '','name'=>'registration']) !!}
 
                         <fieldset id="first-page">
                             <div class="form-group mb-3">
@@ -221,8 +219,6 @@
                                 </div>
                             </div>
 
-
-
                             <div class="row">
                                 <div class="col-sm-8">
                                     <span class="mandatory-fields"></span>
@@ -232,6 +228,7 @@
                                 </div>
                             </div>
                         </fieldset>
+
                         <fieldset id="second-page">
 
                            {{-- <div class="form-group mb-0">
@@ -240,11 +237,14 @@
                                         <label>Country</label>
                                         {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}<span></span>
                                     </div>
-                                  --}}{{--  <div class="col-sm-2 mb-3">
+                                  --}}
+                                  {{--  <div class="col-sm-2 mb-3">
                                         <button type="button" class="btn btn-primary" data-toggle="modal" id="province_fetchID" title="Click here to select the province."><i class="fa fa-map-pin"></i></button>
-                                    </div>--}}{{--
+                                    </div>--}}
+                                    {{--
                                 </div>
                             </div>--}}
+
                             <div class="form-group mb-3">
                                 <label>Phone</label>
                                 <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }} -->
@@ -258,7 +258,6 @@
                                 {{ Form::text('country','Nigeria', ['class' => 'form-control readonly', 'required' => true]) }}
                             </div>
 
-
                             <div class="form-group mb-3">
                                 <label>State</label>
                                 {{ Form::text('state', old('country'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
@@ -268,7 +267,6 @@
                                 <label>City</label>
                                 {{ Form::text('city', old('city'), ['class' => 'form-control', 'required' => true,'onkeypress'=>'return onlyCharacters(event,this)']) }}
                             </div>
-
 
                             <div class="form-group mb-3">
                                 <label>Promo Code</label>
@@ -344,21 +342,8 @@
             </div>
         </div>
 
+    <!-- start: search & user box -->
+    <!-- end: search & user box -->
+    <!-- </header> -->
 
-
-
-
-
-
-
-
-            <!-- start: search & user box -->
-
-            <!-- end: search & user box -->
-        <!-- </header> -->
-
-
-        <!-- end: header -->
-
-
-
+    <!-- end: header -->
