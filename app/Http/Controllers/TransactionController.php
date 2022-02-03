@@ -459,22 +459,10 @@ class TransactionController extends Controller
                 'date_to' => date("Y-m-d", strtotime("today")),
             ];
 
-            // $payment = DB::table('payment_transaction_report')->get()->all();
             $payment = PaymentReport::all();
-            // $payment = PaymentReport::select_list()->all();
-            
-            // $date = '2022-01-07 13:03:48';
-            // $id = 5;
-            // $amt = 100.00;
-            // $status = 'success';
-            // $ref = 'TRF_2x5j67tnnw1t98k';
-            // $code = 'RCP_syjftpyh08uj1i0';
 
             $view_data = ['payment' => $payment, 'filter_arr' => $filter_arr];
 
-            // $view_data = ['date1' => $date, 'user_id' => $id, 'amount' => $amt, 'status' => $status, 'reference' => $ref, 'code' => $code, ];
-
-        // dd($view_data);
             return view('admin-views.transaction.payment-transaction-report', $view_data);
         }
         else{

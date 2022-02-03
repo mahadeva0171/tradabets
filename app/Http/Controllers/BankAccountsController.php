@@ -245,7 +245,6 @@ class BankAccountsController extends Controller
 }
 
 
-
 // IDENTITY VERIFICATION WITH BVN MATCH
 
   // $url = "https://api.paystack.co/bvn/match";
@@ -277,13 +276,14 @@ class BankAccountsController extends Controller
   // echo $result;
 
   // $info = json_decode($result);
-  // $message = $info->message;
-  // $bvn = $info->data->bvn;
-  // $is_blacklisted = $info->data->is_blacklisted;
-  // $first_name = $info->data->first_name;
-  // $last_name = $info->data->last_name;
 
         // if ($info->status) {
+
+              // $message = $info->message;
+              // $bvn = $info->data->bvn;
+              // $is_blacklisted = $info->data->is_blacklisted;
+              // $first_name = $info->data->first_name;
+              // $last_name = $info->data->last_name;
 
         //     $query = userBankDetails::create(['user_id'=>$user->id,
         //             'account_name'=> $recipient_name,

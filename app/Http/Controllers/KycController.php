@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Response;
 use Image;
 use Exception;
 
-
 class KycController extends Controller
 {
     /**

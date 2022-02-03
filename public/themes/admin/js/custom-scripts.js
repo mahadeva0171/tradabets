@@ -196,7 +196,7 @@ function onlyCharacters(e, t) {
     }
 }
 
-function fieldsetToggleNew()
+function registerToggle()
 {
     if($("#first-page").is(":visible")){
         if($('.first-name').val()!="" && $('.last-name').val()!="" && $('.date-of-birth').val()!="" && $('.password').val()!="" && $('.confirm-password').val()!=""){

@@ -103,10 +103,10 @@
                                 <div class="input-group">
                                     {{ Form::text('email', old('user_name'), ['class' => 'form-control form-control-lg login-email', 'required' => true, 'autofocus' => true, 'tabindex' => 1]) }}
                                     <span class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="fas fa-user"></i>
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
                                     </span>
-                                </span>
                                 </div>
                                 <span id="email-message"></span>
                             </div>
@@ -224,7 +224,7 @@
                                     <span class="mandatory-fields"></span>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <button type="button"  class="next action-button btn btn-primary mt-2" onclick="fieldsetToggleNew()">Next</button>
+                                    <button type="button"  class="next action-button btn btn-primary mt-2" onclick="registerToggle()">Next</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -275,7 +275,7 @@
 
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <button class="btn btn-primary mt-2" onclick="fieldsetToggleNew()">Previous</button>
+                                    <button class="btn btn-primary mt-2" onclick="registerToggle()">Previous</button>
                                 </div>
                                 <div class="col-sm-4">
 
