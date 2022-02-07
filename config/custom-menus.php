@@ -102,11 +102,11 @@ return [
             'title' => '<span>WithDraw</span>',
             'prepend-title' => '<img class="user-menu-icons" src="/themes/admin/img/withdraw.png"/>',
         ],
-        [
-            'uri' => '/document-upload',
-            'title' => '<span>KYC</span>',
-            'prepend-title' => '<img class="user-menu-icons" src="/themes/admin/img/kycinfo.png"/>',
-        ],
+        // [
+        //     'uri' => '/document-upload',
+        //     'title' => '<span>KYC</span>',
+        //     'prepend-title' => '<img class="user-menu-icons" src="/themes/admin/img/kycinfo.png"/>',
+        // ],
         [
             'uri' => '/bank-accounts',
             'title' => '<span>Bank Accounts</span>',

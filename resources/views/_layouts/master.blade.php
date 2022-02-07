@@ -46,7 +46,7 @@
         </div> -->
 
 			@if(auth()->user()->role!='admin')
-				@if(request()->segment(1) != 'kyc-upload-form')
+<!-- 				@if(request()->segment(1) != 'kyc-upload-form')
                     @if($kyc_status == 0)
                         <div>
                         <p class='kyc-message'>Please Verify your kyc to withdraw your winnings.</p><a href="/kyc-upload-form"><button class="btn btn-sm btn-primary" href="/kyc-upload-form" value="verify_kyc">
@@ -54,7 +54,7 @@
                                 </button></a>
                         </div>
                     @endif
-                @endif
+                @endif -->
                 @if(request()->segment(1) != 'add-bank-account')
                     @if($account_status == 0)
                         <div>

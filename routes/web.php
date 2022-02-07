@@ -67,8 +67,8 @@ Route::get('/', function () {
 		]);
 
 			return view('tradabet-home-page');
-	}
-		else{
+		}
+		else {
 			   return redirect('/home');
 		}
 

@@ -291,7 +291,7 @@ function amountValidationMessageClear(){
 function amountValidation(){
     var withdraw_amount=parseFloat($('.withdraw-amount-input').val());
     var balance_amount=parseFloat($('.balance-amount').text());
-    var kyc_status = ($('#kycstatus').val());
+    // var kyc_status = ($('#kycstatus').val());
     var account_status = ($('#accountstatus').val());
 
 
@@ -300,12 +300,12 @@ function amountValidation(){
         $('.amount-validation-message').css('color','red');
         return false;
     }
-    if(kyc_status != '1'){
-        $('.kyc-status-message').text('Please complete the kyc verification process!');
-        $('.kyc-status-message').css('color','red');
-        return false;
-    }
-    else if(account_status != '1'){
+    // if(kyc_status != '1'){
+    //     $('.kyc-status-message').text('Please complete the kyc verification process!');
+    //     $('.kyc-status-message').css('color','red');
+    //     return false;
+    // }
+    if(account_status != '1'){
         $('.kyc-status-message').text('Please add a bank account!');
         $('.kyc-status-message').css('color','red');
         return false;

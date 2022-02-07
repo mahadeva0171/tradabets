@@ -250,7 +250,7 @@
                                 <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onkeypress'=>'return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57','onfocusout' =>'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }} -->
                                     
                                 <!-- {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true,'maxlength'=>12, 'onfocusout' =>'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }} -->
-                                {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true, 'onfocusout' => 'phoneNumberVerify()', 'onkeypress'=>'phoneMessageClear()']) }}
+                                {{ Form::text('phone', old('phone'), ['class' => 'form-control phone', 'required' => true, 'onfocusout' => 'phoneNumberVerify()', 'onkeydown'=>'phoneMessageClear()']) }}
                                 <span id="phone"></span>
                             </div>
                             <div class="form-group mb-3">

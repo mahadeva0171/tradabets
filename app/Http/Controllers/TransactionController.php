@@ -186,28 +186,28 @@ class TransactionController extends Controller
     {
         
         $user=auth()->user();
-        $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
-        if($kyc_update!=null)
-        {
-          $kyc_status = 1;
-        }
-        else
-        {
-            $kyc_update=KycDocument::where([['user_id',$user->id],['status','pending']])->get()->all();             
-            if($kyc_update!=null)
-                {
-                    $kyc_status = 2;
-                }
-                else
-                {
-                    $kyc_status = 0;
+        // $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
+        // if($kyc_update!=null)
+        // {
+        //   $kyc_status = 1;
+        // }
+        // else
+        // {
+        //     $kyc_update=KycDocument::where([['user_id',$user->id],['status','pending']])->get()->all();             
+        //     if($kyc_update!=null)
+        //         {
+        //             $kyc_status = 2;
+        //         }
+        //         else
+        //         {
+        //             $kyc_status = 0;
 
-                }
+        //         }
 
-        }
-        if ($kyc_status != 1) {
-            return redirect('/withdraw');
-        }
+        // }
+        // if ($kyc_status != 1) {
+        //     return redirect('/withdraw');
+        // }
         $avail_balance= Balance::where('user_id',$user->id)->first()->balance;
         $balance_amt=$avail_balance-$request->withdraw_amount;
         $recipient_code = DB::table('user_bank_accounts')
