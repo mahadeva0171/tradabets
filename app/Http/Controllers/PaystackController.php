@@ -184,7 +184,7 @@ class PaystackController extends Controller
                     exit();
                 }
                 else {
-                    return redirect('/withdraw-requests')->with('error2', 'Transfer could not be initiated, Contact the developer - ' . $message);
+                    return redirect('/withdraw-requests')->with('error2', 'Transfer could not be initiated, - ' . $message);
                 }
              }
     }
@@ -219,30 +219,52 @@ class PaystackController extends Controller
 
         // $fields_string = http_build_query($newFields);
 
-        $curl = curl_init();
-          
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.paystack.co//transfer/bulk/',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => $newFields,
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer ' . $this->secretKey,
-            'Content-Type: application/json'
-          ),
-        ));
+  $url = "https://api.paystack.co/transfer/bulk";
 
-        $result = curl_exec($curl);
+  // $fields_string = http_build_query($fields);
+  //open connection
+  $ch = curl_init();
+  
+  //set the url, number of POST vars, POST data
+  curl_setopt($ch,CURLOPT_URL, $url);
+  curl_setopt($ch,CURLOPT_POST, true);
+  curl_setopt($ch,CURLOPT_POSTFIELDS, $newFields);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    "Authorization: Bearer " . $this->secretKey,
+    // "Cache-Control: no-cache",
+    "Content-Type: application/json"
+  ));
+  
+  //So that curl_exec returns the contents of the cURL; rather than echoing it
+  curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+  
+  //execute post
+  $result = curl_exec($ch);
+
+        // $curl = curl_init();
+          
+        // curl_setopt_array($curl, array(
+        //   CURLOPT_URL => 'https://api.paystack.co//transfer/bulk/',
+        //   CURLOPT_RETURNTRANSFER => true,
+        //   CURLOPT_ENCODING => '',
+        //   // CURLOPT_MAXREDIRS => 10,
+        //   CURLOPT_TIMEOUT => 0,
+        //   CURLOPT_FOLLOWLOCATION => true,
+        //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //   CURLOPT_CUSTOMREQUEST => 'POST',
+        //   CURLOPT_POSTFIELDS => $newFields,
+        //   CURLOPT_HTTPHEADER => array(
+        //     'Authorization: Bearer ' . $this->secretKey,
+        //     'Content-Type: application/json'
+        //   ),
+        // ));
+
+        // $result = curl_exec($curl);
 
           $finalize = json_decode($result);
           $status = $finalize->status;
           $request_array = $finalize->data;
-
+// echo $result;
           if ($status) {
 
             foreach ($request_array as $elemt) {
@@ -311,7 +333,3 @@ class PaystackController extends Controller
 
     }
 }
-
-
-
-

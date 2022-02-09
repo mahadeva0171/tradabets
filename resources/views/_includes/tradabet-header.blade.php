@@ -127,7 +127,7 @@
                             <div class="form-group mb-3">
                                 <div class="clearfix">
                                     <label class="float-left">Password</label>
-                                    <a href="#" class="float-right" data-toggle="modal" onclick="forgotPasswordModalShow()">Lost Password?</a>
+                                    
                                 </div>
                                 <div class="input-group">
                                     {{ Form::password('password', ['class' => 'form-control form-control-lg login-password', 'required' => true,'onfocusout'=>'loginPasswordVerify()', 'onkeypress'=>'loginPasswordMessageClear()', 'tabindex' => 2]) }}
@@ -142,19 +142,20 @@
 
                             <div class="row">
 
-                                <div class="col-sm-4 ">
+                                <div class="col-sm-12 ">
                                     <button type="button" class="btn btn-primary mt-2" onclick="userVerify()">Login</button>
+                                    {{-- <a href="#" class="float-right" data-toggle="modal" onclick="forgotPasswordModalShow()">Lost Password?</a> --}}
                                 </div>
-                                {{--<a href="{{ url('auth/google') }}" class="btn btn-lg btn-primary btn-block">
+                                {{-- <a href="{{ url('auth/google') }}" class="btn btn-lg btn-primary btn-block">
                                     <strong>Login With Google</strong>
-                                </a>--}}
+                                </a> --}}
                             </div>
 
                            {{-- <span class="mt-3 mb-3 line-thru text-center text-uppercase">
                             <span>or</span>
-                        </span>--}}
-{{--
-                            <p class="text-center">Don't have an account yet? <a href="#" data-toggle="modal" data-target="#registerModal" >Sign Up!</a></p>--}}
+                        </span> --}}
+
+                            {{-- <p class="text-center">Don't have an account yet? <a href="#" data-toggle="modal" data-target="#registerModal" onclick="$('#loginModal').modal('hide')">Sign Up!</a></p> --}}
 
                             {!! Form::close() !!}
 
@@ -286,11 +287,11 @@
                             </div>
                         </fieldset>
 
-                           {{-- <span class="mt-3 mb-3 line-thru text-center text-uppercase">
+                        {{-- <span class="mt-3 mb-3 line-thru text-center text-uppercase">
                             <span>or</span>
                         </span>
 
-                            <p class="text-center">Already have an account? <a href="/login">Login!</a></p>--}}
+                           <p class="text-center">Already have an account? <a href="#" data-toggle="modal" data-target="#loginModal" onclick="$('#registerModal').modal('hide')">Login!</a></p> --}}
 
                             {!! Form::close() !!}
 

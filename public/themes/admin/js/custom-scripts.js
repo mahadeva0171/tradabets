@@ -450,6 +450,7 @@ function emailVerify(){
 
     }
 }
+
 function passwordVerify(){
     if($('.password').val().length<=6)
     {
@@ -708,9 +709,8 @@ $(document).ready(function(){
                         $('#message-area').append('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> '+ responseJSON.message +'</div>');
                         $('div.container-body').fadeOut();
                         $('div.container-body').load('/withdraw-requests',function(){
-                         $('div.container-body').fadeIn();   
+                        $('div.container-body').fadeIn();   
                         });
-
 
                     }
                     else {
@@ -719,7 +719,40 @@ $(document).ready(function(){
 
                 },
                 error: function(e){
-                    alert(e.error);
+                    // alert(e.error);
+                }
+            });
+        }
+        else{
+            return;
+        }
+    }
+
+    function ApproveSelectedtest() {
+
+        var checkboxes = document.getElementsByName('select_request');
+        var selected_requests = [];
+        for (var checkbox of checkboxes) {
+            if (checkbox.checked) {
+                selected_requests.push(checkbox.value);
+            }
+        }
+        if (confirm("Are you sure you want to approve the selected Transfers?")) {
+
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+            $.ajax({
+                type:'post',
+                url:'/bulkTransfer',
+                data:{ data : selected_requests },
+                success:function(data){
+                    console.log(data);
+                },
+                error: function(e){
+                    // alert(e.error);
                 }
             });
         }
@@ -775,5 +808,3 @@ $(document).ready(function(){
             $('.error-message').text('Transfer could not be finalized');
             $('.error-message').css('color','red');
     }
-
-
