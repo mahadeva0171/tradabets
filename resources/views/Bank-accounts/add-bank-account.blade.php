@@ -23,7 +23,9 @@
                     {{ Form::text_md6('Bank Name:', 'form[bank_name]', old('form[bank_name]'), ['required' => true]) }}
 
                     {{ Form::text_md6('Bank Code:', 'form[bank_code]', old('form[bank_code]'), ['required' => true]) }}
-
+                    <div class="text-right" style="margin-top: -12px;">
+                        <p style="color: red; font-size: 10px;">(3 digit bank code)</p>
+                    </div>
                     <!-- {{ Form::text_md6('BVN Number:', 'form[bvn_number]', old('form[bvn_number]'), ['required' => true]) }} -->
 
                 </div>
