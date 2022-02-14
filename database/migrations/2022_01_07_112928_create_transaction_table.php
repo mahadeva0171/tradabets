@@ -18,7 +18,7 @@ class CreateTransactionTable extends Migration
             $table->bigInteger('user_id',false,true);
             $table->double('opening_balance', 20, 2)->default(0);
             $table->string('status');
-            $table->float('amount', 10, 2)->default(0);
+            $table->float('amount', 20, 2)->default(0);
             $table->double('closing_balance', 20, 2)->default(0);
             $table->timestamps();
 

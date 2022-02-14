@@ -194,7 +194,7 @@ class PaymentController extends Controller
                 PaymentHelper::create_transaction($amount, $user_id, 'bonus');
             }
 
-//            $status->session()->put('success', 'Payment success');
+        // $status->session()->put('success', 'Payment success');
             return redirect('deposits');
         }
         $status->session()->put('error', 'Payment Failed');

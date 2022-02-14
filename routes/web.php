@@ -158,7 +158,6 @@ Route::middleware($middleware)->get('/withdraw-request-individual-reject/update/
 Route::middleware($middleware)->post('/withdraw-request-bulk-reject', 'TransactionController@withdrawRequestBulkRejectUpdate');
 Route::middleware($middleware)->get('/transaction-report', 'TransactionController@paystackPaymentReport');
 
-
 	// user profile
 Route::middleware($middleware)->get('users/profile/{user}', 'UserProfileController@show');
 Route::middleware($middleware)->get('users/profile/{user}/edit', 'UserProfileController@edit');
@@ -197,8 +196,3 @@ Route::middleware($middleware)->get('/initiate_transaction/{id}', 'PaystackContr
 Route::middleware($middleware)->get('/finalize_transfer', 'PaystackController@finalizeTransfer')->name('otp');
 
 Route::middleware($middleware)->post('/bulkTransfer', 'PaystackController@bulkTransfer');
-
-
-
-
-

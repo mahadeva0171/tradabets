@@ -20,6 +20,7 @@ class BonusController extends controller
         $this->middleware(['auth']);
     }
 
+
     /**
      * Show the application dashboard.
      *
@@ -53,6 +54,7 @@ class BonusController extends controller
 
         return view('bonus.active-bonus-index',$view_data);
     }
+
     public function bonusTransactionList(Request $request)
     {
         $user=auth()->user();
