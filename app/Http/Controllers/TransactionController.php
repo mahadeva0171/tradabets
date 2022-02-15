@@ -132,7 +132,7 @@ class TransactionController extends Controller
     {
         $user=auth()->user();
 
-       $request_amount=($request->amount!=null)? $request->amount : 0.0;
+        $request_amount=($request->amount!=null)? $request->amount : 0.0;
 
         $avail_balance= Balance::where('user_id',$user->id)->first()->balance;
 
@@ -146,7 +146,9 @@ class TransactionController extends Controller
         $user=auth()->user();
 
         $total_balance = Balance::where('user_id',$user->id)->first()->balance;
-        $bonus = Transaction::where(['user_id'=>$user->id, 'status'=>'bonus'])->first()->amount;
+        $check_bonus = Transaction::where(['user_id'=>$user->id, 'status'=>'bonus'])->first();
+        $bonus = (($check_bonus)) ? $check_bonus->amount : 0 ;
+
         $avail_balance = ($total_balance - $bonus);
         $view_data=['avail_balance'=>$avail_balance];
 

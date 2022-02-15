@@ -44,7 +44,6 @@ class PaymentHelper
     public static function get_user_id_by_reference($reference)
     {
         return Transaction::where('id', $reference)->first()->user_id;
-
     }
 
     public static function create_transaction($amount, $user_id,$status)
