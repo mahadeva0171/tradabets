@@ -4,7 +4,7 @@
 
     <title>{{ env('APP_NAME') }}</title>
     <meta name="keywords" content="HTML5 Admin Template" />
-    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="description" content="">
     <meta name="author" content="okler.net">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
