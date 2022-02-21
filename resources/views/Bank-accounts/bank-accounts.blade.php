@@ -51,8 +51,6 @@
         </div>
         <footer class="card-footer">
             <div class="row">
-
-
                 <div class="col-md-12 text-right">
                     <a href="{{ url('add-bank-account') }}" class="btn btn-primary" id="txtEdit">Add Bank Account</a>
                 </div>

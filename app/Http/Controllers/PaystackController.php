@@ -219,27 +219,27 @@ class PaystackController extends Controller
 
         // $fields_string = http_build_query($newFields);
 
-  $url = "https://api.paystack.co/transfer/bulk";
+          $url = "https://api.paystack.co/transfer/bulk";
 
-  // $fields_string = http_build_query($fields);
-  //open connection
-  $ch = curl_init();
-  
-  //set the url, number of POST vars, POST data
-  curl_setopt($ch,CURLOPT_URL, $url);
-  curl_setopt($ch,CURLOPT_POST, true);
-  curl_setopt($ch,CURLOPT_POSTFIELDS, $newFields);
-  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    "Authorization: Bearer " . $this->secretKey,
-    // "Cache-Control: no-cache",
-    "Content-Type: application/json"
-  ));
-  
-  //So that curl_exec returns the contents of the cURL; rather than echoing it
-  curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
-  
-  //execute post
-  $result = curl_exec($ch);
+          // $fields_string = http_build_query($fields);
+          //open connection
+          $ch = curl_init();
+          
+          //set the url, number of POST vars, POST data
+          curl_setopt($ch,CURLOPT_URL, $url);
+          curl_setopt($ch,CURLOPT_POST, true);
+          curl_setopt($ch,CURLOPT_POSTFIELDS, $newFields);
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            "Authorization: Bearer " . $this->secretKey,
+            // "Cache-Control: no-cache",
+            "Content-Type: application/json"
+          ));
+          
+          //So that curl_exec returns the contents of the cURL; rather than echoing it
+          curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
+          
+          //execute post
+          $result = curl_exec($ch);
 
         // $curl = curl_init();
           

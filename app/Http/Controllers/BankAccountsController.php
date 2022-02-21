@@ -3,6 +3,7 @@ namespace Unicodeveloper\Paystack;
 
 namespace App\Http\Controllers;
 use App\UserBankDetails;
+use App\BanksList;
 use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Config;
@@ -82,16 +83,32 @@ class BankAccountsController extends Controller
 
     public function addAccount(Request $request)
     {
-        return view('Bank-accounts.add-bank-account');
+        $user=auth()->user();
+
+        // $bank_list = BanksList::all(['bank_name'])->toArray();
+        $bank_list = BanksList::pluck('bank_name');
+
+// dd($bank_list);
+     // echo $bank_list;
+        $view_data = ['bank_list' => $bank_list];
+        return view('Bank-accounts.add-bank-account', $view_data);
     }
 
     public function add(Request $request)
     {
+        $bank_selected = request('selected');
+
+       dd($bank_selected);
+    }
+
+    public function add1(Request $request)
+    {
         $user=auth()->user();
         $validator = Validator();
         $AccountNumber = $request->form['account_number'];
-        $BankCode = $request->form['bank_code'];
         $name = $request->form['account_name'];
+        $bank = $request->bank;
+dd($bank);
 
         $account_check = DB::table('user_bank_accounts')
             ->where(['user_id' => $user->id])
@@ -99,7 +116,7 @@ class BankAccountsController extends Controller
             ->count();
 
           if ($account_check != null) {
-            return redirect('/bank-accounts')->with('errors', 'Account already exists!');
+            return redirect('/bank-accounts')->with('errors', $bank);
           }
           else {
         
@@ -242,78 +259,62 @@ class BankAccountsController extends Controller
         return redirect('/bank-accounts');
     }
 
+    public function updateBanksList(Request $request)
+    {
+
+          $curl = curl_init();
+          
+          curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.paystack.co/bank",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+              "Authorization: Bearer " . $this->secretKey,
+              "Cache-Control: no-cache",
+            ),
+          ));
+
+          $response = curl_exec($curl);
+          $err = curl_error($curl);
+          curl_close($curl);
+
+          $finalize = json_decode($response);
+          // dd($finalize);
+
+          $status = $finalize->status;
+          $banks_array = $finalize->data;
+          if ($status) {
+
+            foreach ($banks_array as $elemt) {
+
+                $bank_name = $elemt->name;
+                $bank_code = $elemt->code;
+                $country = $elemt->country;
+                $currency = $elemt->currency;
+                $type = $elemt->type;
+                $list_id = $elemt->id;
+
+                    $query = BanksList::create([
+                            'bank_name' => $bank_name,
+                            'bank_code' => $bank_code,
+                            'country' => $country,
+                            'currency' => $currency,
+                            'type' => $type,
+                            'bank_list_id' => $list_id,
+                    ]);  
+            }
+            return redirect('/withdraw-requests')->with('status', 'Banks list successfully updated!');
+
+          }
+          else {
+
+            return redirect('/withdraw-requests')->with('error', 'Error updating Banks list!');
+
+          }
+    }
+
 }
-
-
-// IDENTITY VERIFICATION WITH BVN MATCH
-
-  // $url = "https://api.paystack.co/bvn/match";
-  // $fields = [
-  //   'bvn' => "xxxxxxxxxxx",
-  //   'account_number' => '0001234567',
-  //   'bank_code' => '058',
-  //   'first_name' => "Jane",
-  //   'last_name' => 'Doe',
-  //   'middle_name' => 'Loren'
-  // ];
-  
-  // $fields_string = http_build_query($fields);
-  
-  // //open connection
-  // $ch = curl_init();
-  
-  // //set the url, number of POST vars, POST data
-  // curl_setopt($ch,CURLOPT_URL, $url);
-  // curl_setopt($ch,CURLOPT_POST, true);
-  // curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-  // curl_setopt($ch, CURLOPT_HTTPHEADER, $this->authBearer);
-  
-  // //So that curl_exec returns the contents of the cURL; rather than echoing it
-  // curl_setopt($ch,CURLOPT_RETURNTRANSFER, true); 
-  
-  // //execute post
-  // $result = curl_exec($ch);
-  // echo $result;
-
-  // $info = json_decode($result);
-
-        // if ($info->status) {
-
-              // $message = $info->message;
-              // $bvn = $info->data->bvn;
-              // $is_blacklisted = $info->data->is_blacklisted;
-              // $first_name = $info->data->first_name;
-              // $last_name = $info->data->last_name;
-
-        //     $query = userBankDetails::create(['user_id'=>$user->id,
-        //             'account_name'=> $recipient_name,
-        //             'account_number'=> $Acct_Numb,
-        //             'bank_name'=> $Bank_Name,
-        //             'bank_code'=> $Bank_Code,
-        //             // 'BVN_Number'=>$request->form['bvn_number'],
-        //             'Active_status'=>'Active',
-        //             'recipient_code'=> $recipient_code,
-        //             'num_type'=> $num_type,
-
-        //         ]);
-        //         session([
-        //             'account_status' => 1
-        //         ]); 
-
-
-        //      if (!$query) {
-        //        // code...
-        //         echo 'There was an error';
-        //      }
-        //      else {
-        //         return redirect('/bank-accounts')->with('status', 'Account added & is verified with Bank Code!');
-        //       exit();
-        //      }
-
-        //    }
-
-        // }
-        // else {
-        //       echo 'There was an error';
-        //  exit();
-        // }

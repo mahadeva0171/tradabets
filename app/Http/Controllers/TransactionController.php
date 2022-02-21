@@ -132,7 +132,7 @@ class TransactionController extends Controller
     {
         $user=auth()->user();
 
-       $request_amount=($request->amount!=null)? $request->amount : 0.0;
+        $request_amount=($request->amount!=null)? $request->amount : 0.0;
 
         $avail_balance= Balance::where('user_id',$user->id)->first()->balance;
 
@@ -145,7 +145,11 @@ class TransactionController extends Controller
     {
         $user=auth()->user();
 
-        $avail_balance = Balance::where('user_id',$user->id)->first()->balance;
+        $total_balance = Balance::where('user_id',$user->id)->first()->balance;
+        $check_bonus = Transaction::where(['user_id'=>$user->id, 'status'=>'bonus'])->first();
+        $bonus = (($check_bonus)) ? $check_bonus->amount : 0 ;
+
+        $avail_balance = ($total_balance - $bonus);
         $view_data=['avail_balance'=>$avail_balance];
 
         return view('transaction-list.withdraw-request',$view_data);
@@ -175,7 +179,7 @@ class TransactionController extends Controller
 
             session()->flash('message-success', 'Amount successfully returned to your wallet.');
 
-                        return redirect('/withdraw');
+            return redirect('/withdraw');
         }
         else{
             return view('_security.restricted-area.show');
@@ -186,6 +190,7 @@ class TransactionController extends Controller
     {
         
         $user=auth()->user();
+
         // $kyc_update=KycDocument::where([['user_id',$user->id],['status','approved']])->get()->all();
         // if($kyc_update!=null)
         // {
@@ -208,6 +213,7 @@ class TransactionController extends Controller
         // if ($kyc_status != 1) {
         //     return redirect('/withdraw');
         // }
+
         $avail_balance= Balance::where('user_id',$user->id)->first()->balance;
         $balance_amt=$avail_balance-$request->withdraw_amount;
         $recipient_code = DB::table('user_bank_accounts')

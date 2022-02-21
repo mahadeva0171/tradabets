@@ -4,7 +4,7 @@
 
 @section('main-content')
 
-    {!! Form::open(['url' => '/add_account', 'method'=>'POST', 'class' => 'form-horizontal', 'files'=>true, 'onsubmit'=>'return checkAccountExist()']) !!}
+    {!! Form::open(['url' => '', 'method'=>'POST', 'class' => 'form-horizontal', 'files'=>true, 'onsubmit'=>'addAccount()']) !!}
 
     <section class="card">
 			<h3><b>Add Bank Account</b></h3>
@@ -14,27 +14,23 @@
             {{--     @include('_components/tabs/top', ['tab_link_arr' => $tab_link_arr, 'active' => 'Details'])    --}}
 
             <div class="row">
-                <div class="col-md-12 col-lg-6">
+                <div class="col-md-12 col-lg-9">
 
                     {{ Form::text_md6('Account Name:', 'form[account_name]', old('form[account_name]'), ['required' => true, 'autofocus' => true]) }}
 
                     {{ Form::text_md6('Account Number:', 'form[account_number]', old('form[account_number]'), ['required' => true]) }}
-
-                    {{ Form::text_md6('Bank Name:', 'form[bank_name]', old('form[bank_name]'), ['required' => true]) }}
-
-                    {{ Form::text_md6('Bank Code:', 'form[bank_code]', old('form[bank_code]'), ['required' => true]) }}
-                    <div class="text-right" style="margin-top: -12px;">
-                        <p style="color: red; font-size: 10px;">(3 digit bank code)</p>
+                    <div style="padding-left: 15px;">
+                    {{ Form::label('Bank:' ) }}
+<!--                     {{ Form::select('bank', $bank_list, null, ['placeholder' => 'Select your Bank', 'required' => 'true', 'class' => 'form-control']) }} -->
+                    {{ Form::select('bank', ['hdffhgd','dhfhdg','dgfdgfg'] , null, ['placeholder' => 'Select your Bank', 'required' => 'true', 'class' => 'form-control']) }}
                     </div>
-                    <!-- {{ Form::text_md6('BVN Number:', 'form[bvn_number]', old('form[bvn_number]'), ['required' => true]) }} -->
-
                 </div>
 
             </div> <!-- /row -->
 
             @include('_components.tabs.btm')
 
-        </div>
+        </div><!-- /card-body -->
 
         <footer class="card-footer">
             <div class="row">

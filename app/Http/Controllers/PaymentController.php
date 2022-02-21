@@ -182,7 +182,7 @@ class PaymentController extends Controller
 
         $amount = ( ($paymentDetails ['data']['amount']) / 100 );
         $status = ($paymentDetails ['status']);
-        $reference = ($paymentDetails['data']['reference']);
+        $reference = ($paymentDetails ['data']['reference']);
 
         if ($status == 'true') {
             $user_id = PaymentHelper::get_user_id_by_reference($reference);
@@ -194,7 +194,7 @@ class PaymentController extends Controller
                 PaymentHelper::create_transaction($amount, $user_id, 'bonus');
             }
 
-//            $status->session()->put('success', 'Payment success');
+        // $status->session()->put('success', 'Payment success');
             return redirect('deposits');
         }
         $status->session()->put('error', 'Payment Failed');

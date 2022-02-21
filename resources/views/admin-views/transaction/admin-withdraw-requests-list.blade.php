@@ -4,7 +4,7 @@
 
 @section('main-content')
 </br>
-<div id="message-area">
+<!-- <div id="message-area"> -->
     @if (session('transfer-success'))
         <div class="alert alert-success">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('transfer-success') }}
@@ -12,6 +12,10 @@
     @elseif (session('success'))
         <div class="alert alert-success">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="alert alert-danger">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('error') }}
         </div>
     @elseif (session('error1'))
         <div class="alert alert-danger">
@@ -30,7 +34,10 @@
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> {{ session('error4') }}
         </div>        
     @endif
-</div>
+<!-- </div> -->
+
+<input class="btn btn-primary" style="font-size: smaller;" type="button" value="Update Banks List" onclick="location.href='/updateBanksList'">
+
     <section class="card">
 
         <div class="card-body">

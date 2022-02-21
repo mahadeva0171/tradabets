@@ -28,7 +28,6 @@ class HomeController extends Controller
     {
         $user=auth()->user();
 
-
         $view_data=[];
         $inbox_notifications = InboxNotification::where('read_at', null)->whereIn('receiver',array($user->id,0))->get();
         session([

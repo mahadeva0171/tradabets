@@ -40,11 +40,12 @@ class PaymentHelper
        $data->save();
        return $data->id;
     }
-   public static function get_user_id_by_reference($reference)
+
+    public static function get_user_id_by_reference($reference)
     {
         return Transaction::where('id', $reference)->first()->user_id;
-
     }
+
     public static function create_transaction($amount, $user_id,$status)
     {
         $avail_balance = Balance::where('user_id', $user_id)->first()->balance;
@@ -60,5 +61,7 @@ class PaymentHelper
             'amount' => $amount,
             'opening_balance' => $avail_balance,
             'closing_balance' => $balance_amt,]);
+
+        //bonus amount can be set here for Play credit
     }
 }

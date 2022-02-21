@@ -17,7 +17,7 @@ class CreateWithdrawRequestsTable extends Migration
             $table->id();
             $table->bigInteger('user_id',false,true);
             $table->string('status');
-            $table->float('amount', 5, 2)->default(0);
+            $table->float('amount', 10, 2)->default(0);
             $table->string('recipient_code')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
